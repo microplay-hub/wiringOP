@@ -1,0 +1,8 @@
+[Unit]
+Description=Pushbuttons service for shutdown-reboot
+
+[Service]
+ExecStart=/usr/local/bin/pushbuttons
+
+[Install]
+WantedBy=multi-user.target
