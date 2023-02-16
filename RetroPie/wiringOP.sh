@@ -58,6 +58,7 @@ function showgpio_wiringOP() {
 }
 
 function h616-scinst_wiringOP() {
+	cd "$md_inst"
 	echo "Set Board Orange Pi Zero2 - Allwinner H616"
 	cp -r "pushbuttons/pushbuttons_h616.c"  "/usr/local/bin/pushbuttons.c"
 	echo "copy short Button Scripts"
@@ -73,6 +74,7 @@ function h616-scinst_wiringOP() {
 }
 
 function h3-scinst_wiringOP() {
+	cd "$md_inst"
 	echo "Set Board Orange Pi One/Lite/Pc/Plus/PcPlus/Plus2e - Allwinner H3"
 	cp -r "pushbuttons/pushbuttons_h3.c"  "/usr/local/bin/pushbuttons.c"
 	echo "copy short Button Scripts"
@@ -89,6 +91,7 @@ function h3-scinst_wiringOP() {
 
 
 function h5-scinst_wiringOP() {
+	cd "$md_inst"
 	echo "Set Board Orange Pi Pc 2 / PI Prime - Allwinner H5"
 	cp -r "pushbuttons/pushbuttons_h5.c"  "/usr/local/bin/pushbuttons.c"
 	echo "copy short Button Scripts"
@@ -104,6 +107,7 @@ function h5-scinst_wiringOP() {
 }
 
 function h6p3-scinst_wiringOP() {
+	cd "$md_inst"
 	echo "Set Board Orange Pi 3/3 LTS - Allwinner H6"
 	cp -r "pushbuttons/pushbuttons_h6p3.c"  "/usr/local/bin/pushbuttons.c"
 	echo "copy short Button Scripts"
@@ -119,6 +123,7 @@ function h6p3-scinst_wiringOP() {
 }
 
 function h6olite-scinst_wiringOP() {
+	cd "$md_inst"
 	echo "Set Board Orange Pi Lite2/OnePlus - Allwinner H6"
 	cp -r "pushbuttons/pushbuttons_h6olite.c"  "/usr/local/bin/pushbuttons.c"
 	echo "copy short Button Scripts"
@@ -134,6 +139,7 @@ function h6olite-scinst_wiringOP() {
 }
 
 function rk3399pi4-scinst_wiringOP() {
+	cd "$md_inst"
 	echo "Set Board Orange Pi 4/4B/4 LTS - Rockchip RK3399"
 	cp -r "pushbuttons/pushbuttons_rk3399pi4.c"  "/usr/local/bin/pushbuttons.c"
 	echo "copy short Button Scripts"
@@ -149,6 +155,7 @@ function rk3399pi4-scinst_wiringOP() {
 }
 
 function rk3399-scinst_wiringOP() {
+	cd "$md_inst"
 	echo "Set Board Orange Pi 4/4B/4 LTS - Rockchip RK3399"
 	cp -r "pushbuttons/pushbuttons_rk3399.c"  "/usr/local/bin/pushbuttons.c"
 	echo "copy short Button Scripts"
@@ -164,6 +171,7 @@ function rk3399-scinst_wiringOP() {
 }
 
 function h5-zerop-scinst_wiringOP() {
+	cd "$md_inst"
 	echo "Set Board Orange Pi Zero Plus - Allwinner H5"
 	cp -r "pushbuttons/pushbuttons_h5_zp.c"  "/usr/local/bin/pushbuttons.c"
 	echo "copy short Button Scripts"
@@ -179,6 +187,7 @@ function h5-zerop-scinst_wiringOP() {
 }
 
 function h5-zerop2-scinst_wiringOP() {
+	cd "$md_inst"
 	echo "Set Board Orange Pi Zero Plus - Allwinner H5"
 	cp -r "pushbuttons/pushbuttons_h5_zp2.c"  "/usr/local/bin/pushbuttons.c"
 	echo "copy short Button Scripts"
@@ -194,6 +203,7 @@ function h5-zerop2-scinst_wiringOP() {
 }
 
 function h3-zerop2-scinst_wiringOP() {
+	cd "$md_inst"
 	echo "Set Board Orange Pi Zero Plus2 - Allwinner H3"
 	cp -r "pushbuttons/pushbuttons_h3_zp2.c"  "/usr/local/bin/pushbuttons.c"
 	echo "copy short Button Scripts"
@@ -209,6 +219,7 @@ function h3-zerop2-scinst_wiringOP() {
 }
 
 function a64-scinst_wiringOP() {
+	cd "$md_inst"
 	echo "Set Board Orange Pi Zero Plus2 - Allwinner H3"
 	cp -r "pushbuttons/pushbuttons_a64.c"  "/usr/local/bin/pushbuttons.c"
 	echo "copy short Button Scripts"
