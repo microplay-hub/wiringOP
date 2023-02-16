@@ -36,7 +36,8 @@ function sources_wiringOP() {
 function install_wiringOP() {
     cd "$md_inst"
 	./build clean
-	./build 
+	./build
+	rm -r "RetroPie/wiringOP.sh"
 }
 
 function remove_wiringOP() {
