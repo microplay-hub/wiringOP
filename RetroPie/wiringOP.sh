@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 # This file is part of the microplay-hub
-# Designs by Liontek1985
+#
+# RetroPie WiringOP Button Config Script by Liontek1985
 # for RetroPie and offshoot
 #
 # The RetroPie Project is the legal property of its developers, whose names are
@@ -10,6 +11,7 @@
 # See the LICENSE.md file at the top-level directory of this distribution and
 # at https://raw.githubusercontent.com/RetroPie/RetroPie-Setup/master/LICENSE.md
 #
+# v2.11 - 2023-02-19
 
 rp_module_id="wiringOP"
 rp_module_desc="GPIO driver for OrangePi SBC-Boards"
@@ -41,6 +43,12 @@ function install_wiringOP() {
 	
     if [[ ! -f "$configdir/all/$md_id.cfg" ]]; then
         iniConfig "=" '"' "$configdir/all/$md_id.cfg"
+        iniSet "AUTOSTART" "not-active"		
+        iniSet "BOARD" "N/A"
+        iniSet "BOARDNAME" "choose-me"
+        iniSet "WOPPINS" "N/A"
+        iniSet "ACTION1" "N/A"
+        iniSet "ACTION2" "N/A"		
         iniSet "BUTTON1" "N/A"
         iniSet "BUTTON2" "N/A"
         iniSet "LONGSHORT1" "N/A"
@@ -68,237 +76,19 @@ function showgpio_wiringOP() {
 	sleep 10
 }
 
-function h616-scinst_wiringOP() {
+function set-scinst_wiringOP() {
 	cd "$md_inst"
-	echo "Set Board Orange Pi Zero2 - Allwinner H616"
-	cp -r "pushbuttons/pushbuttons_h616.c"  "/usr/local/bin/pushbuttons.c"
-	echo "copy short Button Scripts"
-	cp -r "pushbuttons/power.sh"  "/usr/local/bin/run8short.sh"
-	cp -r "pushbuttons/reset.sh"  "/usr/local/bin/run9short.sh"
-	chmod 755 "/usr/local/bin/run8short.sh"
-	chmod 755 "/usr/local/bin/run9short.sh"
-	echo "set GPIO Buttonmod"
-	gpio mode 8 in
-	gpio mode 9 in
-	gpio write 8 1
-	gpio write 9 1
-
-	iniSet "BUTTON1" "8"
-	iniSet "BUTTON2" "9"
-    iniSet "LONGSHORT1" "short"
-    iniSet "LONGSHORT2" "short"
-}
-
-function h3-scinst_wiringOP() {
-	cd "$md_inst"
-	echo "Set Board Orange Pi One/Lite/Pc/Plus/PcPlus/Plus2e - Allwinner H3"
-	cp -r "pushbuttons/pushbuttons_h3.c"  "/usr/local/bin/pushbuttons.c"
-	echo "copy short Button Scripts"
-	cp -r "pushbuttons/power.sh"  "/usr/local/bin/run29short.sh"
-	cp -r "pushbuttons/reset.sh"  "/usr/local/bin/run33short.sh"
-	chmod 755 "/usr/local/bin/run29short.sh"
-	chmod 755 "/usr/local/bin/run33short.sh"
-	echo "set GPIO Buttonmod"
-	gpio mode 29 in
-	gpio mode 33 in
-	gpio write 29 1
-	gpio write 33 1
+	echo "Set Board $boardname"
 	
-	iniSet "BUTTON1" "29"
-	iniSet "BUTTON2" "33"
-    iniSet "LONGSHORT1" "short"
-    iniSet "LONGSHORT2" "short"
-}
-
-
-function h5-scinst_wiringOP() {
-	cd "$md_inst"
-	echo "Set Board Orange Pi Pc 2 / PI Prime - Allwinner H5"
-	cp -r "pushbuttons/pushbuttons_h5.c"  "/usr/local/bin/pushbuttons.c"
-	echo "copy short Button Scripts"
-	cp -r "pushbuttons/power.sh"  "/usr/local/bin/run29short.sh"
-	cp -r "pushbuttons/reset.sh"  "/usr/local/bin/run33short.sh"
-	chmod 755 "/usr/local/bin/run29short.sh"
-	chmod 755 "/usr/local/bin/run33short.sh"
-	echo "set GPIO Buttonmod"
-	gpio mode 29 in
-	gpio mode 33 in
-	gpio write 29 1
-	gpio write 33 1
+	cp -r "pushbuttons/pushbuttons_$board.c"  "/usr/local/bin/pushbuttons.c"
 	
-	iniSet "BUTTON1" "29"
-	iniSet "BUTTON2" "33"
-    iniSet "LONGSHORT1" "short"
-    iniSet "LONGSHORT2" "short"
+	echo "install Service Script"
+	cp -r "pushbuttons/pushbuttons.service"  "/etc/systemd/system/pushbuttons.service"			
+	echo "set chmod"
+	chmod 755 "/usr/local/bin/pushbuttons.c"
+	chmod 755 "/etc/systemd/system/pushbuttons.service"		
 }
 
-function h6p3-scinst_wiringOP() {
-	cd "$md_inst"
-	echo "Set Board Orange Pi 3/3 LTS - Allwinner H6"
-	cp -r "pushbuttons/pushbuttons_h6p3.c"  "/usr/local/bin/pushbuttons.c"
-	echo "copy short Button Scripts"
-	cp -r "pushbuttons/power.sh"  "/usr/local/bin/run8short.sh"
-	cp -r "pushbuttons/reset.sh"  "/usr/local/bin/run10short.sh"
-	chmod 755 "/usr/local/bin/run8short.sh"
-	chmod 755 "/usr/local/bin/run10short.sh"
-	echo "set GPIO Buttonmod"
-	gpio mode 8 in
-	gpio mode 10 in
-	gpio write 8 1
-	gpio write 10 1
-	
-	iniSet "BUTTON1" "8"
-	iniSet "BUTTON2" "10"
-    iniSet "LONGSHORT1" "short"
-    iniSet "LONGSHORT2" "short"
-}
-
-function h6olite-scinst_wiringOP() {
-	cd "$md_inst"
-	echo "Set Board Orange Pi Lite2/OnePlus - Allwinner H6"
-	cp -r "pushbuttons/pushbuttons_h6olite.c"  "/usr/local/bin/pushbuttons.c"
-	echo "copy short Button Scripts"
-	cp -r "pushbuttons/power.sh"  "/usr/local/bin/run8short.sh"
-	cp -r "pushbuttons/reset.sh"  "/usr/local/bin/run10short.sh"
-	chmod 755 "/usr/local/bin/run8short.sh"
-	chmod 755 "/usr/local/bin/run10short.sh"
-	echo "set GPIO Buttonmod"
-	gpio mode 8 in
-	gpio mode 10 in
-	gpio write 8 1
-	gpio write 10 1
-	
-	iniSet "BUTTON1" "8"
-	iniSet "BUTTON2" "10"
-    iniSet "LONGSHORT1" "short"
-    iniSet "LONGSHORT2" "short"
-}
-
-function rk3399pi4-scinst_wiringOP() {
-	cd "$md_inst"
-	echo "Set Board Orange Pi 4/4B/4 LTS - Rockchip RK3399"
-	cp -r "pushbuttons/pushbuttons_rk3399pi4.c"  "/usr/local/bin/pushbuttons.c"
-	echo "copy short Button Scripts"
-	cp -r "pushbuttons/power.sh"  "/usr/local/bin/run16short.sh"
-	cp -r "pushbuttons/reset.sh"  "/usr/local/bin/run18short.sh"
-	chmod 755 "/usr/local/bin/run16short.sh"
-	chmod 755 "/usr/local/bin/run18short.sh"
-	echo "set GPIO Buttonmod"
-	gpio mode 16 in
-	gpio mode 18 in
-	gpio write 16 1
-	gpio write 18 1
-	
-	iniSet "BUTTON1" "16"
-	iniSet "BUTTON2" "18"
-    iniSet "LONGSHORT1" "short"
-    iniSet "LONGSHORT2" "short"
-}
-
-function rk3399-scinst_wiringOP() {
-	cd "$md_inst"
-	echo "Set Board Orange Pi 4/4B/4 LTS - Rockchip RK3399"
-	cp -r "pushbuttons/pushbuttons_rk3399.c"  "/usr/local/bin/pushbuttons.c"
-	echo "copy short Button Scripts"
-	cp -r "pushbuttons/power.sh"  "/usr/local/bin/run16short.sh"
-	cp -r "pushbuttons/reset.sh"  "/usr/local/bin/run18short.sh"
-	chmod 755 "/usr/local/bin/run16short.sh"
-	chmod 755 "/usr/local/bin/run18short.sh"
-	echo "set GPIO Buttonmod"
-	gpio mode 16 in
-	gpio mode 18 in
-	gpio write 16 1
-	gpio write 18 1
-	
-	iniSet "BUTTON1" "16"
-	iniSet "BUTTON2" "18"
-    iniSet "LONGSHORT1" "short"
-    iniSet "LONGSHORT2" "short"
-}
-
-function h5-zerop-scinst_wiringOP() {
-	cd "$md_inst"
-	echo "Set Board Orange Pi Zero Plus - Allwinner H5"
-	cp -r "pushbuttons/pushbuttons_h5_zp.c"  "/usr/local/bin/pushbuttons.c"
-	echo "copy short Button Scripts"
-	cp -r "pushbuttons/power.sh"  "/usr/local/bin/run12short.sh"
-	cp -r "pushbuttons/reset.sh"  "/usr/local/bin/run26short.sh"
-	chmod 755 "/usr/local/bin/run12short.sh"
-	chmod 755 "/usr/local/bin/run26short.sh"
-	echo "set GPIO Buttonmod"
-	gpio mode 12 in
-	gpio mode 26 in
-	gpio write 12 1
-	gpio write 26 1
-	
-	iniSet "BUTTON1" "12"
-	iniSet "BUTTON2" "26"
-    iniSet "LONGSHORT1" "short"
-    iniSet "LONGSHORT2" "short"
-}
-
-function h5-zerop2-scinst_wiringOP() {
-	cd "$md_inst"
-	echo "Set Board Orange Pi Zero Plus - Allwinner H5"
-	cp -r "pushbuttons/pushbuttons_h5_zp2.c"  "/usr/local/bin/pushbuttons.c"
-	echo "copy short Button Scripts"
-	cp -r "pushbuttons/power.sh"  "/usr/local/bin/run12short.sh"
-	cp -r "pushbuttons/reset.sh"  "/usr/local/bin/run26short.sh"
-	chmod 755 "/usr/local/bin/run12short.sh"
-	chmod 755 "/usr/local/bin/run26short.sh"
-	echo "set GPIO Buttonmod"
-	gpio mode 12 in
-	gpio mode 26 in
-	gpio write 12 1
-	gpio write 26 1
-	
-	iniSet "BUTTON1" "12"
-	iniSet "BUTTON2" "26"
-    iniSet "LONGSHORT1" "short"
-    iniSet "LONGSHORT2" "short"
-}
-
-function h3-zerop2-scinst_wiringOP() {
-	cd "$md_inst"
-	echo "Set Board Orange Pi Zero Plus2 - Allwinner H3"
-	cp -r "pushbuttons/pushbuttons_h3_zp2.c"  "/usr/local/bin/pushbuttons.c"
-	echo "copy short Button Scripts"
-	cp -r "pushbuttons/power.sh"  "/usr/local/bin/run12short.sh"
-	cp -r "pushbuttons/reset.sh"  "/usr/local/bin/run26short.sh"
-	chmod 755 "/usr/local/bin/run12short.sh"
-	chmod 755 "/usr/local/bin/run26short.sh"
-	echo "set GPIO Buttonmod"
-	gpio mode 12 in
-	gpio mode 26 in
-	gpio write 12 1
-	gpio write 26 1
-	
-	iniSet "BUTTON1" "12"
-	iniSet "BUTTON2" "26"
-    iniSet "LONGSHORT1" "short"
-    iniSet "LONGSHORT2" "short"
-}
-
-function a64-scinst_wiringOP() {
-	cd "$md_inst"
-	echo "Set Board Orange Pi Zero Plus2 - Allwinner H3"
-	cp -r "pushbuttons/pushbuttons_a64.c"  "/usr/local/bin/pushbuttons.c"
-	echo "copy short Button Scripts"
-	cp -r "pushbuttons/power.sh"  "/usr/local/bin/run29short.sh"
-	cp -r "pushbuttons/reset.sh"  "/usr/local/bin/run33short.sh"
-	chmod 755 "/usr/local/bin/run29short.sh"
-	chmod 755 "/usr/local/bin/run33short.sh"
-	echo "set GPIO Buttonmod"
-	gpio mode 29 in
-	gpio mode 33 in
-	gpio write 29 1
-	gpio write 33 1
-	
-	iniSet "BUTTON1" "29"
-	iniSet "BUTTON2" "33"
-    iniSet "LONGSHORT1" "short"
-    iniSet "LONGSHORT2" "short"
-}
 
 function compile-scinst_wiringOP() {
 	echo "compile Button Script"
@@ -319,51 +109,356 @@ function configbuttons_wiringOP() {
     iniConfig "=" '"' "$configdir/all/$md_id.cfg"	
 }
 
-function autostart-on_wiringOP() {
-	sudo systemctl enable pushbuttons
+function rebuild-b1_wiringOP() {
+	cd "$md_inst"
+	cp -r "pushbuttons/$action1.sh"  "/usr/local/bin/run$button1$longshort1.sh"
+	chmod 755 "/usr/local/bin/run$button1$longshort1.sh"
+	gpio mode $button1 in
+	gpio write $button1 1
+	
+	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2};~" /usr/local/bin/pushbuttons.c
+
 }
 
-function autostart-off_wiringOP() {
-	sudo systemctl disable pushbuttons
-}
+function rebuild-b2_wiringOP() {
+	cd "$md_inst"
+	cp -r "pushbuttons/$action2.sh"  "/usr/local/bin/run$button2$longshort2.sh"
+	chmod 755 "/usr/local/bin/run$button2$longshort2.sh"
+	gpio mode $button2 in
+	gpio write $button2 1
+	
+	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2};~" /usr/local/bin/pushbuttons.c
 
-function press-mod_wiringOP() {
-	find . -name "*long.sh" | sed -e "p;s/long.sh/short.sh/" | xargs -n2 mv
-    iniSet "LONGSHORT1" "short"
-    iniSet "LONGSHORT2" "short"
-}
-
-function hold-mod_wiringOP() {
-	find . -name "*short.sh" | sed -e "p;s/short.sh/long.sh/" | xargs -n2 mv
-    iniSet "LONGSHORT1" "long"
-    iniSet "LONGSHORT2" "long"
 } 
 
-function short-del_wiringOP() {
-	cd "/usr/local/bin/"
-	find . -name "*short.sh" -delete
+function changemod-b1_wiringOP() {
+    options=(
+        S "Button1 short-mod"
+        L "Button1 long-mod"
+		X "[current setting: $longshort1]"
+    )
+    local cmd=(dialog --backtitle "$__backtitle" --menu "Choose an option." 22 86 16)
+    local choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+
+    case "$choice" in
+        S)
+            iniSet "LONGSHORT1" "short"
+            ;;
+        L)
+            iniSet "LONGSHORT1" "long"
+            ;;
+    esac
 }
 
-function long-del_wiringOP() {
-	cd "/usr/local/bin/"
-	find . -name "*long.sh" -delete
+function changemod-b2_wiringOP() {
+    options=(
+        S "Button2 short-mod"
+        L "Button2 long-mod"
+		X "[current setting: $longshort2]"
+    )
+    local cmd=(dialog --backtitle "$__backtitle" --menu "Choose an option." 22 86 16)
+    local choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+
+    case "$choice" in
+        S)
+            iniSet "LONGSHORT2" "short"
+            ;;
+        L)
+            iniSet "LONGSHORT2" "long"
+            ;;
+    esac
 }
 
-function power-del_wiringOP() {
-	cd "/usr/local/bin/"
-	find . -name "run8*" -delete
-	find . -name "run12*" -delete
-	find . -name "run16*" -delete
-	find . -name "run29*" -delete
+function changeaction-b1_wiringOP() {
+    options=(
+        S1 "Button1 Action Power(Safeshutdown)"
+        L1 "Button1 Action Reset"
+		Z1 "Button1 Action Custom"
+		XX "(current setting: $action1)"
+    )
+    local cmd=(dialog --backtitle "$__backtitle" --menu "Choose an option." 22 86 16)
+    local choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+
+    case "$choice" in
+        S1)
+            iniSet "ACTION1" "power"
+            ;;
+        L1)
+            iniSet "ACTION1" "reset"
+            ;;
+        Z1)
+            iniSet "ACTION1" "custom"
+            ;;
+    esac
 }
 
-function reset-del_wiringOP() {
-	cd "/usr/local/bin/"
-	find . -name "run9*" -delete
-	find . -name "run10*" -delete
-	find . -name "run18*" -delete
-	find . -name "run26*" -delete
-	find . -name "run33*" -delete
+function changeaction-b2_wiringOP() {
+    options=(	
+        S2 "Button2 Action Power (Safeshutdown)"
+        L2 "Button2 Action Reset"
+		Z1 "Button2 Action Custom"
+		XX "[current setting: $action2]"
+    )
+    local cmd=(dialog --backtitle "$__backtitle" --menu "Choose an option." 22 86 16)
+    local choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+
+    case "$choice" in
+        S2)
+            iniSet "ACTION2" "power"
+            ;;
+        L2)
+            iniSet "ACTION2" "reset"
+            ;;
+        Z1)
+            iniSet "ACTION2" "custom"
+            ;;
+    esac
+}
+
+function changeautostart_wiringOP() {
+    options=(	
+        A1 "Activate Autostart-Service"
+        A2 "Deactivate Autostart-Service"
+		XX "[current setting: $autostart]"
+    )
+    local cmd=(dialog --backtitle "$__backtitle" --menu "Choose an option." 22 86 16)
+    local choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+
+    case "$choice" in
+        A1)
+            iniSet "AUTOSTART" "active"
+			sudo systemctl enable pushbuttons
+            printMsgs "dialog" "Autostart-Service Activated"
+            ;;
+        A2)
+            iniSet "AUTOSTART" "not-active"
+			sudo systemctl disable pushbuttons
+            printMsgs "dialog" "Autostart-Service Deactivated"
+            ;;
+    esac
+}
+
+function changeboard_wiringOP() {
+    options=(
+        0 "[current setting: $boardname]"	
+        A "Orange Pi Zero2 (H616)"
+        B "Orange Pi PC/One/Lite (H3)"
+        C "Orange Pi PC2/Prime (H5)"
+        D "Orange Pi 3/3 LTS (H6)"
+        E "Orange Pi Lite2/OnePlus (H6)"
+        F "Orange Pi 4/B/LTS (RK3399)"
+        G "Orange Pi RK3399 (RK3399)"
+        H "Orange Pi Zero Plus (H5)"
+        I "Orange Pi Zero Plus (H5)"
+        J "Orange Pi Zero Plus2 (H3)"
+        K "Orange Pi Win/Win+ (A64)"
+		
+    )
+    local cmd=(dialog --backtitle "$__backtitle" --menu "Choose an option." 22 86 16)
+    local choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+
+    case "$choice" in
+        A)
+		iniSet "BOARD" "h616"
+		iniSet "BOARDNAME" "Orange Pi Zero2 (H616)"
+		iniSet "WOPPINS" "20"
+		iniSet "BUTTON1" "8"
+		iniSet "BUTTON2" "9"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1	
+
+		echo "Set Board $boardname"
+            ;;
+        B)
+		iniSet "BOARD" "h3"
+		iniSet "BOARDNAME" "Orange Pi PC/One/Lite (H3)"
+		iniSet "WOPPINS" "27"
+		iniSet "BUTTON1" "19"
+		iniSet "BUTTON2" "22"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1
+
+		echo "Set Board $boardname"
+            ;;
+        C)
+
+		iniSet "BOARD" "h5"
+		iniSet "BOARDNAME" "Orange Pi PC2/Prime (H5)"
+		iniSet "WOPPINS" "27"
+		iniSet "BUTTON1" "19"
+		iniSet "BUTTON2" "22"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1
+
+		echo "Set Board $boardname"
+            ;;
+        D)
+		iniSet "BOARD" "h6p3"
+		iniSet "BOARDNAME" "Orange Pi 3/3 LTS (H6)"
+		iniSet "WOPPINS" "16"
+		iniSet "BUTTON1" "3"
+		iniSet "BUTTON2" "4"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1
+
+		echo "Set Board $boardname"
+            ;;
+        E)
+		iniSet "BOARD" "h6olite"
+		iniSet "BOARDNAME" "Orange Pi Lite2/OnePlus (H6)"
+		iniSet "WOPPINS" "16"
+		iniSet "BUTTON1" "3"
+		iniSet "BUTTON2" "4"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1
+
+		echo "Set Board $boardname"
+            ;;
+        F)
+		iniSet "BOARD" "rk3399pi4"
+		iniSet "BOARDNAME" "Orange Pi 4/B/LTS (RK3399)"
+		iniSet "WOPPINS" "18"
+		iniSet "BUTTON1" "9"
+		iniSet "BUTTON2" "10"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1
+
+		echo "Set Board $boardname"
+            ;;
+        G)
+		iniSet "BOARD" "rk3399"
+		iniSet "BOARDNAME" "Orange Pi RK3399 (RK3399)"
+		iniSet "WOPPINS" "27"
+		iniSet "BUTTON1" "9"
+		iniSet "BUTTON2" "10"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1
+
+		echo "Set Board $boardname"
+            ;;
+        H)
+		iniSet "BOARD" "h5_zp"
+		iniSet "BOARDNAME" "Orange Pi Zero Plus (H5)"
+		iniSet "WOPPINS" "16"
+		iniSet "BUTTON1" "6"
+		iniSet "BUTTON2" "16"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1
+
+		echo "Set Board $boardname"
+            ;;
+        I)
+		iniSet "BOARD" "h5_zp2"
+		iniSet "BOARDNAME" "Orange Pi Zero Plus (H5)"
+		iniSet "WOPPINS" "16"
+		iniSet "BUTTON1" "6"
+		iniSet "BUTTON2" "16"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1
+
+		echo "Set Board $boardname"
+            ;;
+        J)
+		iniSet "BOARD" "h3_zp2"
+		iniSet "BOARDNAME" "Orange Pi Zero Plus2 (H3)"
+		iniSet "WOPPINS" "27"
+		iniSet "BUTTON1" "6"
+		iniSet "BUTTON2" "16"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1
+
+		echo "Set Board $boardname"
+            ;;
+        K)
+		iniSet "BOARD" "a64"
+		iniSet "BOARDNAME" "Orange Pi Win/Win+ (A64)"
+		iniSet "WOPPINS" "27"
+		iniSet "BUTTON1" "19"
+		iniSet "BUTTON2" "22"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1
+
+		echo "Set Board $boardname"
+            ;;
+			
+    esac
 }
 
 function cleaning-sc_wiringOP() {
@@ -373,59 +468,56 @@ function cleaning-sc_wiringOP() {
 	rm -r "/usr/local/bin/pushbuttons"
 }
 
-function button-scinst_wiringOP() {
-	echo "install Service Script"
-	cp -r "pushbuttons/pushbuttons.service"  "/etc/systemd/system/pushbuttons.service"
-				
-	echo "set chmod"
-	chmod 755 "/usr/local/bin/pushbuttons.c"
-	chmod 755 "/etc/systemd/system/pushbuttons.service"		
-
-}
 
 function gui_wiringOP() {
     local cmd=(dialog --backtitle "$__backtitle" --menu "Choose an option." 22 86 16)
 
         iniConfig "=" '"' "$configdir/all/$md_id.cfg"
+		
+        iniGet "BOARD"
+        local board=${ini_value}
+        iniGet "BOARDNAME"
+        local boardname=${ini_value}
+        iniGet "WOPPINS"
+        local woppins=${ini_value}		
         iniGet "BUTTON1"
         local button1=${ini_value}
         iniGet "BUTTON2"
         local button2=${ini_value}
+        iniGet "ACTION1"
+        local action1=${ini_value}
+        iniGet "ACTION2"
+        local action2=${ini_value}
         iniGet "LONGSHORT1"
         local longshort1=${ini_value}
         iniGet "LONGSHORT2"
         local longshort2=${ini_value}
+        iniGet "AUTOSTART"
+        local autostart=${ini_value}
 
     local options=(
-        X "Show my GPIO Pins (10sec)"
+        0 "Show my GPIO Pins (10sec)"
     )
         options+=(
-            A "Button1 on PIN:$button1 [$longshort1-mod]"
-            AE "*edit Button1*"
-            B "Button2 on PIN:$button2 [$longshort2-mod]"
-            BE "*edit Button2*"
+			XX "[[ Set my Board - now: $boardname ]]"
+            A "// Button1 on PIN:$button1 [$action1-$longshort1-mod]"
+            AE "***edit Button1 [Script]"
+            AF "**change [Action:$action1]"
+            AP "**change [WOP-PIN:$button1]"
+            AM "**change [MOD:$longshort1]"
+            AX "*reconfig new Button1"
+            B "// Button2 on PIN:$button2 [$action2-$longshort2-mod]"
+            BE "***edit Button2 [Script]"
+            BF "**change [Action:$action2]"			
+            BP "**change [WOP-PIN:$button2]"
+            BM "**change [MOD:$longshort2]"
+            BX "*reconfig new Button2"			
             )
         options+=(	
-        30 "Starting Buttontest (60sec)"
-        31 "Activate Autostart Service (Buttons)"
-        32 "Deactivate Autostart Service (Buttons)"
-        40 "Set-SafeButtons on Short-mod (Press)"
-        41 "Set-SafeButtons on Hold-mod (Hold)"
-        42 "Deactivate Power SafeButton"
-        43 "Deactivate Reset SafeButton"
-        44 "Activate all SafeButtons"
-        70 "Install Safebuttons (H616 Zero2)"
-        71 "Install Safebuttons (H3 PC/One/Lite)"
-        72 "Install Safebuttons (H5 PC2/Prime)"
-        73 "Install Safebuttons (H6 Pi3)"
-        74 "Install Safebuttons (RK3399 Pi4)"
-        75 "Install Safebuttons (RK3399)"
-        76 "Install Safebuttons (H5 Zero+)"
-        77 "Install Safebuttons (H5 Zero+2)"
-        78 "Install Safebuttons (H3 Zero+2)"
-        79 "Install Safebuttons (A64 Win/WinP)"
-        98 "Uninstall SafeButtons and Services"
-        99 "Reboot System"
+			C "Buttontest (60sec)"
+			D "Change Autostart Service [$autostart]"
+			ZA "Uninstall SafeButtons and Services"
+			ZZ "Reboot System"
     )
 	
 
@@ -435,20 +527,46 @@ function gui_wiringOP() {
     local choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 	
         iniConfig "=" '"' "$configdir/all/$md_id.cfg"
+		
+        iniGet "BOARD"
+        local board=${ini_value}
+        iniGet "BOARDNAME"
+        local boardname=${ini_value}
+        iniGet "WOPPINS"
+        local woppins=${ini_value}		
         iniGet "BUTTON1"
         local button1=${ini_value}
         iniGet "BUTTON2"
         local button2=${ini_value}
+        iniGet "ACTION1"
+        local action1=${ini_value}
+        iniGet "ACTION2"
+        local action2=${ini_value}
         iniGet "LONGSHORT1"
         local longshort1=${ini_value}
         iniGet "LONGSHORT2"
         local longshort2=${ini_value}
+        iniGet "AUTOSTART"
+        local autostart=${ini_value}
 	
     if [[ -n "$choice" ]]; then
         case "$choice" in
-            X)
+            0)
 				showgpio_wiringOP
                 printMsgs "dialog" "Show my GPIO Pins \n\nto see it longer open the command line and type\n\ngpio readall"
+                ;;
+            XX)
+				configbuttons_wiringOP
+				changeboard_wiringOP
+				configbuttons_wiringOP
+				set-scinst_wiringOP
+				configbuttons_wiringOP
+				rebuild-b1_wiringOP
+				configbuttons_wiringOP
+				rebuild-b2_wiringOP
+				configbuttons_wiringOP
+				compile-scinst_wiringOP
+                printMsgs "dialog" "Set Board to $boardname ($board) with follow defaultconfig \nWOP-PINS:$woppins\nBUTTON1: WOP-PIN-$button1 Action-$action1 Mod-$longshort1\nBUTTON2: WOP-PIN-$button2 Action-$action2 Mod-$longshort2\nAutostart-Service: $autostart\nTest with Option C the Buttons\nTest successful\n than Set Autostart with Option D to Active"
                 ;;
             A)
 				editFile "/usr/local/bin/run$button1$longshort1.sh"
@@ -456,129 +574,71 @@ function gui_wiringOP() {
             AE)
 				editFile "/usr/local/bin/run$button1$longshort1.sh"
                 ;;
+            AF)
+				configbuttons_wiringOP
+				changeaction-b1_wiringOP
+                printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option AX / BX \n reconfig activate the new Settings"
+                ;;
+			AP)				
+				button1=$(dialog --title "Change PIN for Button1" --clear --rangebox "Configure your PIN for Button1" 0 60 5 $woppins $button1 2>&1 >/dev/tty)
+                    if [[ -n "$button1" ]]; then
+                        iniSet "BUTTON1" "${button1//[^[:digit:]]/}"
+                    fi
+                printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option AX / BX \n reconfig activate the new Settings"
+                ;;	
+			AM)
+				configbuttons_wiringOP
+				changemod-b1_wiringOP
+                printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option AX / BX \n reconfig activate the new Settings"
+                ;;
+			AX)	
+				configbuttons_wiringOP
+				rebuild-b1_wiringOP
+				compile-scinst_wiringOP
+                printMsgs "dialog" "New Button1-Settings [PIN:$button1-$action1-$longshort1-mod] activated"
+                ;;
             B)
 				editFile "/usr/local/bin/run$button2$longshort2.sh"
                 ;;
             BE)
 				editFile "/usr/local/bin/run$button2$longshort2.sh"
                 ;;
-            30)
+            BF)
+				configbuttons_wiringOP
+				changeaction-b2_wiringOP
+                printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option AX / BX \n reconfig activate the new Settings"
+                ;;
+			BP)				
+				button2=$(dialog --title "Change PIN for Button2" --clear --rangebox "Configure your PIN for Button2" 0 60 5 $woppins $button2 2>&1 >/dev/tty)
+                    if [[ -n "$button2" ]]; then
+                        iniSet "BUTTON2" "${button2//[^[:digit:]]/}"
+                    fi
+                printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option AX / BX \n reconfig activate the new Settings"
+                ;;
+			BM)	
+				configbuttons_wiringOP
+				changemod-b2_wiringOP
+                printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option AX / BX \n reconfig activate the new Settings"
+                ;;
+			BX)	
+				configbuttons_wiringOP
+				rebuild-b2_wiringOP
+				compile-scinst_wiringOP
+                printMsgs "dialog" "New Button2-Settings [PIN:$button2-$action2-$longshort2-mod]  activated"
+                ;;
+            C)
 				testsc_wiringOP
                 printMsgs "dialog" "Testtime is over, try again if you want"
                 ;;
-            31)
-				autostart-on_wiringOP
-                printMsgs "dialog" "Autostart activated"
-                ;;
-            32)
-				autostart-off_wiringOP
-                printMsgs "dialog" "Autostart deactivated"
-                ;;
-            40)
+            D)
 				configbuttons_wiringOP
-				press-mod_wiringOP
-                printMsgs "dialog" "Set Press SafeButtons (Short klick)"
+				changeautostart_wiringOP
                 ;;
-            41)
-				configbuttons_wiringOP
-				hold-mod_wiringOP
-                printMsgs "dialog" "Set Hold SafeButtons (Long hold)"
-                ;;
-            42)
-				power-del_wiringOP
-                printMsgs "dialog" "Deactivate Power SafeButton"
-                ;;
-            43)
-				reset-del_wiringOP
-                printMsgs "dialog" "Deactivate Reset SafeButton"
-                ;;
-            44)
-                printMsgs "dialog" "Choose your Board and Install the SafeButtons new \n\with Options 70-89"
-                ;;
-            70)	
-				configbuttons_wiringOP
-				h616-scinst_wiringOP
-				button-scinst_wiringOP
-				compile-scinst_wiringOP
-                printMsgs "dialog" "H616 Orange Pi Zero2 Buttonscript installed \nPowerbutton PIN15 named PC8 \nResetbutton PIN16 named PC9 \n use the Buttontest to check the function \n use the Autostartfunction to add the script as service to autostart"
-                ;;
-            71)
-				configbuttons_wiringOP
-				h3-scinst_wiringOP
-				button-scinst_wiringOP
-				compile-scinst_wiringOP
-                printMsgs "dialog" "H3 Orange Pi One/Lite/Pc/Plus/PcPlus/Plus2e Buttonscript installed \nPowerbutton PIN29 named PA07 \nResetbutton PIN33 named PA09 \n use the Buttontest to check the function \n use the Autostartfunction to add the script as service to autostart"
-                ;;
-            72)
-				configbuttons_wiringOP
-				h5-scinst_wiringOP
-				button-scinst_wiringOP
-				compile-scinst_wiringOP
-                printMsgs "dialog" "H5 Orange Pi PC2, Prime Buttonscript installed \nPowerbutton PIN29 named PA07 \nResetbutton PIN33 named PA09 \n use the Buttontest to check the function \n use the Autostartfunction to add the script as service to autostart"
-                ;;
-            73)
-				configbuttons_wiringOP
-				h6p3-scinst_wiringOP
-				button-scinst_wiringOP
-				compile-scinst_wiringOP
-                printMsgs "dialog" "H6 Orange Pi 3, 3LTS Buttonscript installed \nPowerbutton PIN8 named PL02 \nResetbutton PIN10 named PL03 \n use the Buttontest to check the function \n use the Autostartfunction to add the script as service to autostart"
-                ;;
-            74)
-				configbuttons_wiringOP
-				h6olite-scinst_wiringOP
-				button-scinst_wiringOP
-				compile-scinst_wiringOP
-                printMsgs "dialog" "H6 Orange Pi One/Lite2 Buttonscript installed \nPowerbutton PIN8 named PD21 \nResetbutton PIN10 named PD22 \n use the Buttontest to check the function \n use the Autostartfunction to add the script as service to autostart"
-                ;;
-            74)
-				configbuttons_wiringOP
-				rk3399pi4-scinst_wiringOP
-				button-scinst_wiringOP
-				compile-scinst_wiringOP
-                printMsgs "dialog" "rk3399 Orange Pi4 Buttonscript installed \nPowerbutton PIN16 named GPIO1_C6 \nResetbutton PIN18 named GPIO1_C7 \n use the Buttontest to check the function \n use the Autostartfunction to add the script as service to autostart"
-                ;;
-            75)
-				configbuttons_wiringOP
-				rk3399-scinst_wiringOP
-				button-scinst_wiringOP
-				compile-scinst_wiringOP
-                printMsgs "dialog" "rk3399 Buttonscript installed \nPowerbutton PIN16 named GPIO23 \nResetbutton PIN18 named GPIO24 \n use the Buttontest to check the function \n use the Autostartfunction to add the script as service to autostart"
-                ;;
-            76)
-				configbuttons_wiringOP
-				h5-zerop-scinst_wiringOP
-				button-scinst_wiringOP
-				compile-scinst_wiringOP
-                printMsgs "dialog" "H5 Orange Pi Zero Plus Buttonscript installed \nPowerbutton PIN12 named PA07 \nResetbutton PIN26 named PA10 \n use the Buttontest to check the function \n use the Autostartfunction to add the script as service to autostart"
-                ;;
-            77)
-				configbuttons_wiringOP
-				h5-zerop2-scinst_wiringOP
-				button-scinst_wiringOP
-				compile-scinst_wiringOP
-                printMsgs "dialog" "H5 Orange Pi Zero Plus 2 Buttonscript installed \nPowerbutton PIN12 named PD11 \nResetbutton PIN26 named PD14 \n use the Buttontest to check the function \n use the Autostartfunction to add the script as service to autostart"
-                ;;
-            78)
-				configbuttons_wiringOP
-				h3-zerop2-scinst_wiringOP
-				button-scinst_wiringOP
-				compile-scinst_wiringOP
-                printMsgs "dialog" "H3 Orange Pi Zero Plus2 Buttonscript installed \nPowerbutton PIN12 named PD11 \nResetbutton PIN26 named PD14 \n use the Buttontest to check the function \n use the Autostartfunction to add the script as service to autostart"
-                ;;
-            79)
-				configbuttons_wiringOP
-				a64-scinst_wiringOP
-				button-scinst_wiringOP
-				compile-scinst_wiringOP
-                printMsgs "dialog" "A64 Orange Pi Win/Winplus Buttonscript installed \nPowerbutton PIN29 named PB04 \nResetbutton PIN33 named PB06 \n use the Buttontest to check the function \n use the Autostartfunction to add the script as service to autostart"
-                ;;
-            98)
+            ZA)
 				cleaning-sc_wiringOP
-				short-del_wiringOP
-				long-del_wiringOP
                 printMsgs "dialog" "SafeButtons deactivated and uninstalled"
                 ;;
-            99)
+            ZZ)
 			#Reboot System
 				echo "...Rebooting System"
 				/usr/bin/sudo /sbin/reboot
