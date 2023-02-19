@@ -172,8 +172,8 @@ function changemod-b2_wiringOP() {
 function changeaction-b1_wiringOP() {
     options=(
         S1 "Button1 Action Power(Safeshutdown)"
-        L1 "Button1 Action Reset"
-		Z1 "Button1 Action Custom"
+        L1 "Button1 Action Reset (Safereset)"
+		Z1 "Button1 Action Custom (own script)"
 		XX "(current setting: $action1)"
     )
     local cmd=(dialog --backtitle "$__backtitle" --menu "Choose an option." 22 86 16)
@@ -195,8 +195,8 @@ function changeaction-b1_wiringOP() {
 function changeaction-b2_wiringOP() {
     options=(	
         S2 "Button2 Action Power (Safeshutdown)"
-        L2 "Button2 Action Reset"
-		Z1 "Button2 Action Custom"
+        L2 "Button2 Action Reset (Safereset)"
+		Z1 "Button2 Action Custom (own script)"
 		XX "[current setting: $action2]"
     )
     local cmd=(dialog --backtitle "$__backtitle" --menu "Choose an option." 22 86 16)
