@@ -228,11 +228,13 @@ function changeautostart_wiringOP() {
         A1)
             iniSet "AUTOSTART" "active"
 			sudo systemctl enable pushbuttons
+			sudo systemctl daemon-reload
             printMsgs "dialog" "Autostart-Service Activated"
             ;;
         A2)
             iniSet "AUTOSTART" "not-active"
 			sudo systemctl disable pushbuttons
+			sudo systemctl daemon-reload
             printMsgs "dialog" "Autostart-Service Deactivated"
             ;;
     esac
