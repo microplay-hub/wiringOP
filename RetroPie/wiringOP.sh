@@ -520,6 +520,7 @@ function gui_wiringOP() {
 			D "Change Autostart Service [$autostart]"
 			ZA "Uninstall SafeButtons and Services"
 			ZZ "Reboot System"
+            TEK "### Script by Liontek1985 ###"
     )
 	
 
