@@ -1235,7 +1235,7 @@ function gui_wiringOP() {
 				rebuild-"$buttonnum"b_wiringOP
 				configbuttons_wiringOP
 				compile-scinst_wiringOP
-                printMsgs "dialog" "Set Board to $boardname ($board) with follow defaultconfig \nWOP-PINS:$woppins\nBUTTON1: WOP-PIN-$button1 Action-$action1 Mod-$longshort1\nBUTTON2: WOP-PIN-$button2 Action-$action2 Mod-$longshort2\nAutostart-Service: $autostart\nTest with Option C the Buttons\nTest successful\n than Set Autostart with Option D to Active"
+                printMsgs "dialog" "Set Board to $boardname ($board) with follow defaultconfig \nWOP-PINS:$woppins\nBUTTON1: WOP-PIN-$button1 Action-$action1 Mod-$longshort1\nBUTTON2: WOP-PIN-$button2 Action-$action2 Mod-$longshort2\nAutostart-Service: $autostart\nTest with Option X the Buttons\nTest successful\n than Set Autostart with Option Y to Active"
                 ;;
             XN)
 				configbuttons_wiringOP
