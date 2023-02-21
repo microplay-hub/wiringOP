@@ -11,7 +11,7 @@
 # See the LICENSE.md file at the top-level directory of this distribution and
 # at https://raw.githubusercontent.com/RetroPie/RetroPie-Setup/master/LICENSE.md
 #
-# v2.2 - 2023-02-19
+# v2.21 - 2023-02-19
 # up to 8 Buttons
 
 rp_module_id="wiringOP"
@@ -94,6 +94,40 @@ function remove_wiringOP() {
 function showgpio_wiringOP() {
     gpio readall
 	sleep 10
+}
+
+function defaultini_wiringOP() {
+        iniConfig "=" '"' "$configdir/all/$md_id.cfg"
+        iniSet "AUTOSTART" "not-active"		
+        iniSet "BOARD" "N/A"
+        iniSet "BOARDNAME" "choose-me"
+        iniSet "BUTTONNUM" "0"
+        iniSet "WOPPINS" "x"
+        iniSet "ACTION1" "x"
+        iniSet "ACTION2" "x"
+        iniSet "ACTION3" "x"
+        iniSet "ACTION4" "x"
+        iniSet "ACTION5" "x"
+        iniSet "ACTION6" "x"	
+        iniSet "ACTION7" "x"
+        iniSet "ACTION8" "x"	
+        iniSet "BUTTON1" "x"
+        iniSet "BUTTON2" "x"
+        iniSet "BUTTON3" "x"
+        iniSet "BUTTON4" "x"
+        iniSet "BUTTON5" "x"
+        iniSet "BUTTON6" "x"
+        iniSet "BUTTON7" "x"
+        iniSet "BUTTON8" "x"
+        iniSet "LONGSHORT1" "x"
+        iniSet "LONGSHORT2" "x"
+        iniSet "LONGSHORT3" "x"
+        iniSet "LONGSHORT4" "x"
+        iniSet "LONGSHORT5" "x"
+        iniSet "LONGSHORT6" "x"
+        iniSet "LONGSHORT7" "x"
+        iniSet "LONGSHORT8" "x"
+	sleep 1
 }
 
 function set-scinst_wiringOP() {
@@ -1227,6 +1261,8 @@ function gui_wiringOP() {
                 printMsgs "dialog" "Show my GPIO Pins \n\nto see it longer open the command line and type\n\ngpio readall"
                 ;;
             XX)
+				configbuttons_wiringOP
+				defaultini_wiringOP
 				configbuttons_wiringOP
 				changeboard_wiringOP
 				configbuttons_wiringOP
