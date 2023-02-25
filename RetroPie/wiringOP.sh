@@ -11,7 +11,7 @@
 # See the LICENSE.md file at the top-level directory of this distribution and
 # at https://raw.githubusercontent.com/RetroPie/RetroPie-Setup/master/LICENSE.md
 #
-# v2.21 - 2023-02-19
+# v2.3 - 2023-02-25
 # up to 8 Buttons
 
 rp_module_id="wiringOP"
@@ -134,7 +134,7 @@ function set-scinst_wiringOP() {
 	cd "$md_inst"
 	echo "Set Board $boardname"
 	
-	cp -r "pushbuttons/pushbuttons_$board.c"  "/usr/local/bin/pushbuttons.c"
+	cp -r "pushbuttons/pushbuttons.c"  "/usr/local/bin/pushbuttons.c"
 	
 	echo "install Service Script"
 	cp -r "pushbuttons/pushbuttons.service"  "/etc/systemd/system/pushbuttons.service"			
@@ -170,8 +170,8 @@ function rebuild-1b_wiringOP() {
 	gpio mode $button1 in
 	gpio write $button1 1
 
-	sed -i "10s~.*~unsigned int nums = $buttonnum;~" /usr/local/bin/pushbuttons.c	
-	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2,$button3};~" /usr/local/bin/pushbuttons.c
+	sed -i "10s~.*~unsigned int nums = $buttonnum; // Number of PINs used again~" /usr/local/bin/pushbuttons.c	
+	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2,$button3}; // List of GPIO used by buttons in Wpi semantics~" /usr/local/bin/pushbuttons.c
 
 }
 
@@ -186,8 +186,8 @@ function rebuild-2b_wiringOP() {
 	gpio mode $button2 in
 	gpio write $button2 1
 
-	sed -i "10s~.*~unsigned int nums = $buttonnum;~" /usr/local/bin/pushbuttons.c	
-	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2,$button3};~" /usr/local/bin/pushbuttons.c
+	sed -i "10s~.*~unsigned int nums = $buttonnum; // Number of PINs used again~" /usr/local/bin/pushbuttons.c	
+	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2,$button3}; // List of GPIO used by buttons in Wpi semantics~" /usr/local/bin/pushbuttons.c
 
 } 
 
@@ -206,8 +206,8 @@ function rebuild-3b_wiringOP() {
 	gpio mode $button3 in
 	gpio write $button3 1
 
-	sed -i "10s~.*~unsigned int nums = $buttonnum;~" /usr/local/bin/pushbuttons.c	
-	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2,$button3};~" /usr/local/bin/pushbuttons.c
+	sed -i "10s~.*~unsigned int nums = $buttonnum; // Number of PINs used again~" /usr/local/bin/pushbuttons.c	
+	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2,$button3}; // List of GPIO used by buttons in Wpi semantics~" /usr/local/bin/pushbuttons.c
 
 }
 
@@ -230,8 +230,8 @@ function rebuild-4b_wiringOP() {
 	gpio mode $button4 in
 	gpio write $button4 1
 
-	sed -i "10s~.*~unsigned int nums = $buttonnum;~" /usr/local/bin/pushbuttons.c	
-	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2,$button3,$button4};~" /usr/local/bin/pushbuttons.c
+	sed -i "10s~.*~unsigned int nums = $buttonnum; // Number of PINs used again~" /usr/local/bin/pushbuttons.c	
+	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2,$button3,$button4}; // List of GPIO used by buttons in Wpi semantics~" /usr/local/bin/pushbuttons.c
 
 } 
 
@@ -260,8 +260,8 @@ function rebuild-5b_wiringOP() {
 	gpio mode $button5 in
 	gpio write $button5 1
 
-	sed -i "10s~.*~unsigned int nums = $buttonnum;~" /usr/local/bin/pushbuttons.c	
-	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2,$button3,$button4,$button5};~" /usr/local/bin/pushbuttons.c
+	sed -i "10s~.*~unsigned int nums = $buttonnum; // Number of PINs used again~" /usr/local/bin/pushbuttons.c	
+	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2,$button3,$button4,$button5}; // List of GPIO used by buttons in Wpi semantics~" /usr/local/bin/pushbuttons.c
 
 }
 
@@ -294,8 +294,8 @@ function rebuild-6b_wiringOP() {
 	gpio mode $button6 in
 	gpio write $button6 1
 
-	sed -i "10s~.*~unsigned int nums = $buttonnum;~" /usr/local/bin/pushbuttons.c	
-	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2,$button3,$button4,$button5,$button6};~" /usr/local/bin/pushbuttons.c
+	sed -i "10s~.*~unsigned int nums = $buttonnum; // Number of PINs used again~" /usr/local/bin/pushbuttons.c	
+	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2,$button3,$button4,$button5,$button6}; // List of GPIO used by buttons in Wpi semantics~" /usr/local/bin/pushbuttons.c
 
 } 
 
@@ -332,8 +332,8 @@ function rebuild-7b_wiringOP() {
 	gpio mode $button7 in
 	gpio write $button7 1
 
-	sed -i "10s~.*~unsigned int nums = $buttonnum;~" /usr/local/bin/pushbuttons.c	
-	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2,$button3,$button4,$button5,$button6,$button7};~" /usr/local/bin/pushbuttons.c
+	sed -i "10s~.*~unsigned int nums = $buttonnum; // Number of PINs used again~" /usr/local/bin/pushbuttons.c	
+	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2,$button3,$button4,$button5,$button6,$button7}; // List of GPIO used by buttons in Wpi semantics~" /usr/local/bin/pushbuttons.c
 
 } 
 
@@ -374,8 +374,8 @@ function rebuild-8b_wiringOP() {
 	gpio mode $button8 in
 	gpio write $button8 1
 
-	sed -i "10s~.*~unsigned int nums = $buttonnum;~" /usr/local/bin/pushbuttons.c	
-	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2,$button3,$button4,$button5,$button6,$button7,$button8};~" /usr/local/bin/pushbuttons.c
+	sed -i "10s~.*~unsigned int nums = $buttonnum; // Number of PINs used again~" /usr/local/bin/pushbuttons.c	
+	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2,$button3,$button4,$button5,$button6,$button7,$button8}; // List of GPIO used by buttons in Wpi semantics~" /usr/local/bin/pushbuttons.c
 
 } 
 
@@ -819,7 +819,11 @@ function changeboard_wiringOP() {
 		gpio mode $button1 in
 		gpio mode $button2 in
 		gpio write $button1 1
-		gpio write $button2 1	
+		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for Orange PI Zero 2 H616~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 27, 29, 31, 33}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
 
 		echo "Set Board $boardname"
             ;;
@@ -839,6 +843,10 @@ function changeboard_wiringOP() {
 		gpio mode $button2 in
 		gpio write $button1 1
 		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for OrangePi One/Lite/Pc/Plus/PcPlus/Plus2e~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 27, 28, 29, 31, 32, 33, 35, 36, 37, 38, 40}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
 
 		echo "Set Board $boardname"
             ;;
@@ -859,6 +867,10 @@ function changeboard_wiringOP() {
 		gpio mode $button2 in
 		gpio write $button1 1
 		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for Orange Pi Pc 2 / Prime~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 27, 28, 29, 31, 32, 33, 35, 36, 37, 38, 40}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
 
 		echo "Set Board $boardname"
             ;;
@@ -878,6 +890,10 @@ function changeboard_wiringOP() {
 		gpio mode $button2 in
 		gpio write $button1 1
 		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for Orange Pi 3/3 LTS~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
 
 		echo "Set Board $boardname"
             ;;
@@ -897,6 +913,10 @@ function changeboard_wiringOP() {
 		gpio mode $button2 in
 		gpio write $button1 1
 		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for Orange Pi Lite2/OnePlus~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
 
 		echo "Set Board $boardname"
             ;;
@@ -916,6 +936,10 @@ function changeboard_wiringOP() {
 		gpio mode $button2 in
 		gpio write $button1 1
 		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for Orange PI RK3399 PI4 / 4B / 4LTS~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 27, 28}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
 
 		echo "Set Board $boardname"
             ;;
@@ -935,6 +959,10 @@ function changeboard_wiringOP() {
 		gpio mode $button2 in
 		gpio write $button1 1
 		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for Orange PI RK3399~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 27, 28, 29, 31, 32, 33, 35, 36, 37, 38, 40}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
 
 		echo "Set Board $boardname"
             ;;
@@ -954,6 +982,10 @@ function changeboard_wiringOP() {
 		gpio mode $button2 in
 		gpio write $button1 1
 		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for Orange Pi Zero Plus~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
 
 		echo "Set Board $boardname"
             ;;
@@ -973,6 +1005,10 @@ function changeboard_wiringOP() {
 		gpio mode $button2 in
 		gpio write $button1 1
 		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for Orange Pi Zero Plus 2~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
 
 		echo "Set Board $boardname"
             ;;
@@ -992,6 +1028,10 @@ function changeboard_wiringOP() {
 		gpio mode $button2 in
 		gpio write $button1 1
 		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for Orange Pi Zero Plus 2 (H3)~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
 
 		echo "Set Board $boardname"
             ;;
@@ -1011,6 +1051,10 @@ function changeboard_wiringOP() {
 		gpio mode $button2 in
 		gpio write $button1 1
 		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for Orange Pi Win/Winplus~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 27, 28, 29, 31, 32, 33, 35, 36, 37, 38, 40}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
 
 		echo "Set Board $boardname"
             ;;
