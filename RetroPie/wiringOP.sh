@@ -171,7 +171,7 @@ function rebuild-1b_wiringOP() {
 	gpio write $button1 1
 
 	sed -i "10s~.*~unsigned int nums = $buttonnum; // Number of PINs used again~" /usr/local/bin/pushbuttons.c	
-	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2,$button3}; // List of GPIO used by buttons in Wpi semantics~" /usr/local/bin/pushbuttons.c
+	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1}; // List of GPIO used by buttons in Wpi semantics~" /usr/local/bin/pushbuttons.c
 
 }
 
@@ -187,7 +187,7 @@ function rebuild-2b_wiringOP() {
 	gpio write $button2 1
 
 	sed -i "10s~.*~unsigned int nums = $buttonnum; // Number of PINs used again~" /usr/local/bin/pushbuttons.c	
-	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2,$button3}; // List of GPIO used by buttons in Wpi semantics~" /usr/local/bin/pushbuttons.c
+	sed -i "11s~.*~unsigned int WpiPinsSelection[] = {$button1,$button2}; // List of GPIO used by buttons in Wpi semantics~" /usr/local/bin/pushbuttons.c
 
 } 
 
