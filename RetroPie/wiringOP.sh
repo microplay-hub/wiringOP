@@ -11,7 +11,7 @@
 # See the LICENSE.md file at the top-level directory of this distribution and
 # at https://raw.githubusercontent.com/RetroPie/RetroPie-Setup/master/LICENSE.md
 #
-# v2.3 - 2023-02-25
+# v2.31 - 2023-02-25
 # up to 8 Buttons
 
 rp_module_id="wiringOP"
@@ -130,17 +130,17 @@ function defaultini_wiringOP() {
 	sleep 1
 }
 
-function set-scinst_wiringOP() {
-	cd "$md_inst"
-	echo "Set Board $boardname"
-	
-	cp -r "pushbuttons/pushbuttons.c"  "/usr/local/bin/pushbuttons.c"
-	
+function set-service_wiringOP() {
 	echo "install Service Script"
 	cp -r "pushbuttons/pushbuttons.service"  "/etc/systemd/system/pushbuttons.service"			
 	echo "set chmod"
 	chmod 755 "/usr/local/bin/pushbuttons.c"
 	chmod 755 "/etc/systemd/system/pushbuttons.service"		
+}
+
+function set-pushc_wiringOP() {
+	cd "$md_inst"
+	cp -r "pushbuttons/pushbuttons.c"  "/usr/local/bin/pushbuttons.c"	
 }
 
 
@@ -1305,12 +1305,13 @@ function gui_wiringOP() {
                 printMsgs "dialog" "Show my GPIO Pins \n\nto see it longer open the command line and type\n\ngpio readall"
                 ;;
             XX)
+				set-pushc_wiringOP
 				configbuttons_wiringOP
 				defaultini_wiringOP
 				configbuttons_wiringOP
 				changeboard_wiringOP
 				configbuttons_wiringOP
-				set-scinst_wiringOP
+				set-service_wiringOP
 				configbuttons_wiringOP
 				rebuild-"$buttonnum"b_wiringOP
 				configbuttons_wiringOP
