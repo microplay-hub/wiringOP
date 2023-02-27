@@ -20,10 +20,6 @@ rp_module_repo="git https://github.com/microplay-hub/wiringOP.git master"
 rp_module_section="driver"
 rp_module_flags="noinstclean !rpi !g1"
 
-function sources_wiringOP() {
-    gitPullOrClone
-}
-
 function depends_wiringOP() {
     local depends=(cmake)
      getDepends "${depends[@]}"
