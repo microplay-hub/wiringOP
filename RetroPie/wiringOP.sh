@@ -84,7 +84,7 @@ function remove_wiringOP() {
 	cd "/usr/local/bin/"
 	find . -name "*short.sh" -delete
 	find . -name "*long.sh" -delete
-    rm-r "$configdir/all/$md_id.cfg"
+    rm -r "$configdir/all/$md_id.cfg"
 }
 
 function showgpio_wiringOP() {
