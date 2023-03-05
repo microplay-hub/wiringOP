@@ -1,3 +1,20 @@
+# Scripts for RetroPie by Liontek1985
+
+## RetroPie Modul - WiringOP + Buttonscripts (Liontek1985 Script)
+
+Basic-Code:	orangepi-xunlong/WiringOP</br>
+Moded-Code:	Liontek1985</br>
+Scrips:		Liontek1985</br>
+License:	CC BY-NC-SA 4.0</br>
+
+![pic001](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul.png "Modul Picture")
+![pic002](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-cf.png "Modul Picture")
+![pic003](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/cfg-wiringop.png "Modul Picture")
+
+
+
+
+
 ## How to download wiringOP
 
 ```
