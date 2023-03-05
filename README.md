@@ -9,7 +9,19 @@ License:	CC BY-NC-SA 4.0</br>
 
 ![pic001](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul.png "Modul Picture")
 ![pic002](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-cf.png "Modul Picture")
-![pic003](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/cfg-wiringop.png "Modul Picture")
+![pic003](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-board.png "Modul Picture")
+![pic004](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-board-set.png "Modul Picture")
+![pic005](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-button-edit.png "Modul Picture")
+![pic006](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-button-edit2.png "Modul Picture")
+![pic007](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-buttons.png "Modul Picture")
+![pic008](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-buttons-xx.png "Modul Picture")
+![pic009](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-action.png "Modul Picture")
+![pic010](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-pin.png "Modul Picture")
+![pic011](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-mod.png "Modul Picture")
+![pic012](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-autostart.png "Modul Picture")
+
+</br>
+![pic099](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/cfg-wiringop.png "Modul Picture")
 
 
 
