@@ -7,6 +7,17 @@ Moded-Code:	Liontek1985</br>
 Scrips:		Liontek1985</br>
 License:	CC BY-NC-SA 4.0</br>
 
+# Set your Board "Orange PI Series"</br>
+*The Script set automatic the GPIO-PINs in the right mode</br>
+*Changeable Buttons from 1-8</br>
+*every Button set individual MOD Short klick or Long hold</br>
+*every Button set individual ACTION Safe-Shutdown, Safe-Reset or Custom script</br>
+*Custom Script with integrated Editor for every Button! (Keyboard needed)
+*Set for every Button a individual PIN (automatic PIN-Range for every Board from the list)</br>
+*Show-my GPIO PINS mod</br>
+*Testmod for the Buttons and Scripts</br>
+*Autostart mod with changeable status</br>
+
 ![pic001](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul.png "Modul Picture")
 ![pic002](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-cf.png "Modul Picture")
 ![pic003](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-board.png "Modul Picture")
@@ -18,9 +29,7 @@ License:	CC BY-NC-SA 4.0</br>
 ![pic009](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-action.png "Modul Picture")
 ![pic010](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-pin.png "Modul Picture")
 ![pic011](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-mod.png "Modul Picture")
-![pic012](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-autostart.png "Modul Picture")
-
-</br>
+![pic012](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-autostart.png "Modul Picture")</br>
 ![pic099](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/cfg-wiringop.png "Modul Picture")
 
 
@@ -32,7 +41,7 @@ License:	CC BY-NC-SA 4.0</br>
 ```
 # apt-get update
 # apt-get install -y git
-# git clone https://github.com/orangepi-xunlong/wiringOP.git
+# git clone https://github.com/microplay-hub/wiringOP.git
 ```
 
 ## How to build wiringOP
