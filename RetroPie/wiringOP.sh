@@ -11,14 +11,18 @@
 # See the LICENSE.md file at the top-level directory of this distribution and
 # at https://raw.githubusercontent.com/RetroPie/RetroPie-Setup/master/LICENSE.md
 #
-# v2.31 - 2023-02-25
+# v2.34 - 2023-03-06
 # up to 8 Buttons
+# CC BY-NC-SA 4.0
 
 rp_module_id="wiringOP"
 rp_module_desc="GPIO driver for OrangePi SBC-Boards"
+rp_module_help="Supports up to 8 Push-Buttons in Configure Menu"
+rp_module_licence="NC-SA https://github.com/microplay-hub/wiringOP/blob/master/LICENSE.md"
 rp_module_repo="git https://github.com/microplay-hub/wiringOP.git master"
 rp_module_section="driver"
 rp_module_flags="noinstclean !rpi !g1"
+
 
 function depends_wiringOP() {
     local depends=(cmake)
@@ -39,39 +43,12 @@ function install_wiringOP() {
 	rm -r "RetroPie/wiringOP.sh"
 	
     if [[ ! -f "$configdir/all/$md_id.cfg" ]]; then
-        iniConfig "=" '"' "$configdir/all/$md_id.cfg"
-        iniSet "AUTOSTART" "not-active"		
-        iniSet "BOARD" "N/A"
-        iniSet "BOARDNAME" "choose-me"
-        iniSet "BUTTONNUM" "0"
-        iniSet "WOPPINS" "x"
-        iniSet "ACTION1" "x"
-        iniSet "ACTION2" "x"
-        iniSet "ACTION3" "x"
-        iniSet "ACTION4" "x"
-        iniSet "ACTION5" "x"
-        iniSet "ACTION6" "x"	
-        iniSet "ACTION7" "x"
-        iniSet "ACTION8" "x"	
-        iniSet "BUTTON1" "x"
-        iniSet "BUTTON2" "x"
-        iniSet "BUTTON3" "x"
-        iniSet "BUTTON4" "x"
-        iniSet "BUTTON5" "x"
-        iniSet "BUTTON6" "x"
-        iniSet "BUTTON7" "x"
-        iniSet "BUTTON8" "x"
-        iniSet "LONGSHORT1" "x"
-        iniSet "LONGSHORT2" "x"
-        iniSet "LONGSHORT3" "x"
-        iniSet "LONGSHORT4" "x"
-        iniSet "LONGSHORT5" "x"
-        iniSet "LONGSHORT6" "x"
-        iniSet "LONGSHORT7" "x"
-        iniSet "LONGSHORT8" "x"
+	default-ini_wiringOP
     fi
     chown $user:$user "$configdir/all/$md_id.cfg"
 	chmod 755 "$configdir/all/$md_id.cfg"
+	service-script_wiringOP
+	action-scripts_wiringOP
 }
 
 function remove_wiringOP() {
@@ -92,7 +69,7 @@ function showgpio_wiringOP() {
 	sleep 10
 }
 
-function defaultini_wiringOP() {
+function default-ini_wiringOP() {
         iniConfig "=" '"' "$configdir/all/$md_id.cfg"
         iniSet "AUTOSTART" "not-active"		
         iniSet "BOARD" "N/A"
@@ -126,8 +103,41 @@ function defaultini_wiringOP() {
 	sleep 1
 }
 
-function set-service_wiringOP() {
-	echo "install Service Script"
+
+function action-scripts_wiringOP() {
+	echo "create Buttons Scripts"
+	#power script
+    cat > "pushbuttons/power.sh" << _EOF_
+sudo shutdown -h now
+_EOF_
+	#reset script
+    cat > "pushbuttons/reset.sh" << _EOF_
+sudo reboot
+_EOF_
+	#custom script
+    cat > "pushbuttons/custom.sh" << _EOF_
+sudo echo "own Script"
+_EOF_
+
+}	
+	
+
+function service-script_wiringOP() {
+	echo "create Service Script"
+    cat > "pushbuttons/pushbuttons.service" << _EOF_
+[Unit]
+Description=Pushbuttons service by Liontek1985
+
+[Service]
+ExecStart=/usr/local/bin/pushbuttons
+
+[Install]
+WantedBy=multi-user.target
+_EOF_
+}
+
+function service-install_wiringOP() {
+	echo "install Pushbutton Service"
 	cp -r "pushbuttons/pushbuttons.service"  "/etc/systemd/system/pushbuttons.service"			
 	echo "set chmod"
 	chmod 755 "/usr/local/bin/pushbuttons.c"
@@ -140,24 +150,26 @@ function set-pushc_wiringOP() {
 }
 
 
-function compile-scinst_wiringOP() {
-	echo "compile Button Script"
+function compile-pushc_wiringOP() {
+	echo "compile Pushbutton Script"
 	cd /usr/local/bin/
 	gcc -o pushbuttons pushbuttons.c -lwiringPi -lwiringPiDev -lpthread
 	chmod 755 "/usr/local/bin/pushbuttons"
 }
 
-function testsc_wiringOP() {
+function test-buttons_wiringOP() {
 	echo "start the time (60 seconds) please push the Button to test the function"
 	cd /usr/local/bin/
 	sudo ./pushbuttons
 	sleep 60
 }
 
-function configbuttons_wiringOP() {
+function get-cfg-ini_wiringOP() {
 	chown $user:$user "$configdir/all/$md_id.cfg"	
     iniConfig "=" '"' "$configdir/all/$md_id.cfg"	
 }
+
+# REBUILD BUTTONS CODE - START
 
 function rebuild-1b_wiringOP() {
 	cd "$md_inst"
@@ -375,6 +387,10 @@ function rebuild-8b_wiringOP() {
 
 } 
 
+# REBUILD BUTTONS CODE - END
+
+# CHANGE BUTTON MOD - START
+
 function changemod-b1_wiringOP() {
     options=(
         S "Button1 short-mod"
@@ -527,6 +543,8 @@ function changemod-b8_wiringOP() {
     esac
 }
 
+# CHANGE BUTTON MOD - END
+
 function changebuttonnum_wiringOP() {
     options=(
 		B1 "1 Active-Button"
@@ -569,6 +587,8 @@ function changebuttonnum_wiringOP() {
             ;;
     esac
 }
+
+# CHANGE BUTTON ACTION - START
 
 function changeaction-b1_wiringOP() {
     options=(
@@ -755,6 +775,8 @@ function changeaction-b8_wiringOP() {
     esac
 }
 
+# CHANGE BUTTON ACTION - END
+
 function changeautostart_wiringOP() {
     options=(	
         A1 "Activate Autostart-Service"
@@ -780,33 +802,71 @@ function changeautostart_wiringOP() {
     esac
 }
 
+
+# BOARD SETTINGS - START
+
 function changeboard_wiringOP() {
     options=(
         0 "[current setting: $boardname]"	
-        A "Orange Pi Zero2 (H616)"
-        B "Orange Pi PC/One/Lite (H3)"
-        C "Orange Pi PC2/Prime (H5)"
-        D "Orange Pi 3/3 LTS (H6)"
-        E "Orange Pi Lite2/OnePlus (H6)"
-        F "Orange Pi 4/B/LTS (RK3399)"
-        G "Orange Pi RK3399 (RK3399)"
-        H "Orange Pi Zero Plus (H5)"
-        I "Orange Pi Zero Plus (H5)"
-        J "Orange Pi Zero Plus2 (H3)"
-        K "Orange Pi Win/Win+ (A64)"
-		
+		A "Orange Pi Zero/R1 (H2+)"
+        B "Orange Pi Zero Plus2 (H3)"
+        C "Orange Pi PC/One/Lite (H3)"
+        D "Orange Pi Zero Plus (H5)"
+        E "Orange Pi Zero Plus2 (H5)"
+        F "Orange Pi PC2/Prime (H5)"
+        G "Orange Pi Win/Win+ (A64)"
+        H "Orange Pi 3/3 LTS (H6)"
+        I "Orange Pi Lite2/OnePlus (H6)"
+        J "Orange Pi Zero2 (H616)"
+        K "Orange Pi RK3399 (RK3399)"
+        L "Orange Pi 4/B/LTS (RK3399)"
     )
     local cmd=(dialog --backtitle "$__backtitle" --menu "Choose an option." 22 86 16)
     local choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 
     case "$choice" in
+
+        0)
+        iniSet "AUTOSTART" "not-active"		
+        iniSet "BOARD" "N/A"
+        iniSet "BOARDNAME" "choose-me"
+        iniSet "BUTTONNUM" "0"
+        iniSet "WOPPINS" "x"
+        iniSet "ACTION1" "x"
+        iniSet "ACTION2" "x"
+        iniSet "ACTION3" "x"
+        iniSet "ACTION4" "x"
+        iniSet "ACTION5" "x"
+        iniSet "ACTION6" "x"	
+        iniSet "ACTION7" "x"
+        iniSet "ACTION8" "x"	
+        iniSet "BUTTON1" "x"
+        iniSet "BUTTON2" "x"
+        iniSet "BUTTON3" "x"
+        iniSet "BUTTON4" "x"
+        iniSet "BUTTON5" "x"
+        iniSet "BUTTON6" "x"
+        iniSet "BUTTON7" "x"
+        iniSet "BUTTON8" "x"
+        iniSet "LONGSHORT1" "x"
+        iniSet "LONGSHORT2" "x"
+        iniSet "LONGSHORT3" "x"
+        iniSet "LONGSHORT4" "x"
+        iniSet "LONGSHORT5" "x"
+        iniSet "LONGSHORT6" "x"
+        iniSet "LONGSHORT7" "x"
+        iniSet "LONGSHORT8" "x"
+	
+		echo "Set Board $boardname"
+            ;;
+	
         A)
-		iniSet "BOARD" "h616"
-		iniSet "BOARDNAME" "Orange Pi Zero2 (H616)"
+		iniSet "BOARD" "h2+"
+		iniSet "BOARDNAME" "Orange Pi Zero/R1 (H2+)"
         iniSet "BUTTONNUM" "2"
-		iniSet "WOPPINS" "20"
-		iniSet "BUTTON1" "8"
-		iniSet "BUTTON2" "9"
+		iniSet "WOPPINS" "16"
+		iniSet "BUTTON1" "6"
+		iniSet "BUTTON2" "16"
 		iniSet "ACTION1" "power"
 		iniSet "ACTION2" "reset"
 		iniSet "LONGSHORT1" "short"
@@ -817,198 +877,14 @@ function changeboard_wiringOP() {
 		gpio write $button1 1
 		gpio write $button2 1
 		
-	sed -i "29s~.*~// following pins assignation is probably good only for Orange PI Zero 2 H616~" /usr/local/bin/pushbuttons.c	
-	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 27, 29, 31, 33}; // physical pins~" /usr/local/bin/pushbuttons.c
-	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
+	sed -i "29s~.*~// following pins assignation is probably good only for Orange Pi Zero/R1~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
 
 		echo "Set Board $boardname"
             ;;
+
         B)
-		iniSet "BOARD" "h3"
-		iniSet "BOARDNAME" "Orange Pi PC/One/Lite (H3)"
-        iniSet "BUTTONNUM" "2"
-		iniSet "WOPPINS" "27"
-		iniSet "BUTTON1" "19"
-		iniSet "BUTTON2" "22"
-		iniSet "ACTION1" "power"
-		iniSet "ACTION2" "reset"
-		iniSet "LONGSHORT1" "short"
-		iniSet "LONGSHORT2" "short"
-	
-		gpio mode $button1 in
-		gpio mode $button2 in
-		gpio write $button1 1
-		gpio write $button2 1
-		
-	sed -i "29s~.*~// following pins assignation is probably good only for OrangePi One/Lite/Pc/Plus/PcPlus/Plus2e~" /usr/local/bin/pushbuttons.c	
-	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 27, 28, 29, 31, 32, 33, 35, 36, 37, 38, 40}; // physical pins~" /usr/local/bin/pushbuttons.c
-	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
-
-		echo "Set Board $boardname"
-            ;;
-        C)
-
-		iniSet "BOARD" "h5"
-		iniSet "BOARDNAME" "Orange Pi PC2/Prime (H5)"
-        iniSet "BUTTONNUM" "2"
-		iniSet "WOPPINS" "27"
-		iniSet "BUTTON1" "19"
-		iniSet "BUTTON2" "22"
-		iniSet "ACTION1" "power"
-		iniSet "ACTION2" "reset"
-		iniSet "LONGSHORT1" "short"
-		iniSet "LONGSHORT2" "short"
-	
-		gpio mode $button1 in
-		gpio mode $button2 in
-		gpio write $button1 1
-		gpio write $button2 1
-		
-	sed -i "29s~.*~// following pins assignation is probably good only for Orange Pi Pc 2 / Prime~" /usr/local/bin/pushbuttons.c	
-	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 27, 28, 29, 31, 32, 33, 35, 36, 37, 38, 40}; // physical pins~" /usr/local/bin/pushbuttons.c
-	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
-
-		echo "Set Board $boardname"
-            ;;
-        D)
-		iniSet "BOARD" "h6p3"
-		iniSet "BOARDNAME" "Orange Pi 3/3 LTS (H6)"
-        iniSet "BUTTONNUM" "2"
-		iniSet "WOPPINS" "16"
-		iniSet "BUTTON1" "3"
-		iniSet "BUTTON2" "4"
-		iniSet "ACTION1" "power"
-		iniSet "ACTION2" "reset"
-		iniSet "LONGSHORT1" "short"
-		iniSet "LONGSHORT2" "short"
-	
-		gpio mode $button1 in
-		gpio mode $button2 in
-		gpio write $button1 1
-		gpio write $button2 1
-		
-	sed -i "29s~.*~// following pins assignation is probably good only for Orange Pi 3/3 LTS~" /usr/local/bin/pushbuttons.c	
-	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26}; // physical pins~" /usr/local/bin/pushbuttons.c
-	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
-
-		echo "Set Board $boardname"
-            ;;
-        E)
-		iniSet "BOARD" "h6olite"
-		iniSet "BOARDNAME" "Orange Pi Lite2/OnePlus (H6)"
-        iniSet "BUTTONNUM" "2"
-		iniSet "WOPPINS" "16"
-		iniSet "BUTTON1" "3"
-		iniSet "BUTTON2" "4"
-		iniSet "ACTION1" "power"
-		iniSet "ACTION2" "reset"
-		iniSet "LONGSHORT1" "short"
-		iniSet "LONGSHORT2" "short"
-	
-		gpio mode $button1 in
-		gpio mode $button2 in
-		gpio write $button1 1
-		gpio write $button2 1
-		
-	sed -i "29s~.*~// following pins assignation is probably good only for Orange Pi Lite2/OnePlus~" /usr/local/bin/pushbuttons.c	
-	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26}; // physical pins~" /usr/local/bin/pushbuttons.c
-	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
-
-		echo "Set Board $boardname"
-            ;;
-        F)
-		iniSet "BOARD" "rk3399pi4"
-		iniSet "BOARDNAME" "Orange Pi 4/B/LTS (RK3399)"
-        iniSet "BUTTONNUM" "2"
-		iniSet "WOPPINS" "18"
-		iniSet "BUTTON1" "9"
-		iniSet "BUTTON2" "10"
-		iniSet "ACTION1" "power"
-		iniSet "ACTION2" "reset"
-		iniSet "LONGSHORT1" "short"
-		iniSet "LONGSHORT2" "short"
-	
-		gpio mode $button1 in
-		gpio mode $button2 in
-		gpio write $button1 1
-		gpio write $button2 1
-		
-	sed -i "29s~.*~// following pins assignation is probably good only for Orange PI RK3399 PI4 / 4B / 4LTS~" /usr/local/bin/pushbuttons.c	
-	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 27, 28}; // physical pins~" /usr/local/bin/pushbuttons.c
-	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
-
-		echo "Set Board $boardname"
-            ;;
-        G)
-		iniSet "BOARD" "rk3399"
-		iniSet "BOARDNAME" "Orange Pi RK3399 (RK3399)"
-        iniSet "BUTTONNUM" "2"
-		iniSet "WOPPINS" "27"
-		iniSet "BUTTON1" "9"
-		iniSet "BUTTON2" "10"
-		iniSet "ACTION1" "power"
-		iniSet "ACTION2" "reset"
-		iniSet "LONGSHORT1" "short"
-		iniSet "LONGSHORT2" "short"
-	
-		gpio mode $button1 in
-		gpio mode $button2 in
-		gpio write $button1 1
-		gpio write $button2 1
-		
-	sed -i "29s~.*~// following pins assignation is probably good only for Orange PI RK3399~" /usr/local/bin/pushbuttons.c	
-	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 27, 28, 29, 31, 32, 33, 35, 36, 37, 38, 40}; // physical pins~" /usr/local/bin/pushbuttons.c
-	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
-
-		echo "Set Board $boardname"
-            ;;
-        H)
-		iniSet "BOARD" "h5_zp"
-		iniSet "BOARDNAME" "Orange Pi Zero Plus (H5)"
-        iniSet "BUTTONNUM" "2"
-		iniSet "WOPPINS" "16"
-		iniSet "BUTTON1" "6"
-		iniSet "BUTTON2" "16"
-		iniSet "ACTION1" "power"
-		iniSet "ACTION2" "reset"
-		iniSet "LONGSHORT1" "short"
-		iniSet "LONGSHORT2" "short"
-	
-		gpio mode $button1 in
-		gpio mode $button2 in
-		gpio write $button1 1
-		gpio write $button2 1
-		
-	sed -i "29s~.*~// following pins assignation is probably good only for Orange Pi Zero Plus~" /usr/local/bin/pushbuttons.c	
-	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26}; // physical pins~" /usr/local/bin/pushbuttons.c
-	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
-
-		echo "Set Board $boardname"
-            ;;
-        I)
-		iniSet "BOARD" "h5_zp2"
-		iniSet "BOARDNAME" "Orange Pi Zero Plus (H5)"
-        iniSet "BUTTONNUM" "2"
-		iniSet "WOPPINS" "16"
-		iniSet "BUTTON1" "6"
-		iniSet "BUTTON2" "16"
-		iniSet "ACTION1" "power"
-		iniSet "ACTION2" "reset"
-		iniSet "LONGSHORT1" "short"
-		iniSet "LONGSHORT2" "short"
-	
-		gpio mode $button1 in
-		gpio mode $button2 in
-		gpio write $button1 1
-		gpio write $button2 1
-		
-	sed -i "29s~.*~// following pins assignation is probably good only for Orange Pi Zero Plus 2~" /usr/local/bin/pushbuttons.c	
-	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26}; // physical pins~" /usr/local/bin/pushbuttons.c
-	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
-
-		echo "Set Board $boardname"
-            ;;
-        J)
 		iniSet "BOARD" "h3_zp2"
 		iniSet "BOARDNAME" "Orange Pi Zero Plus2 (H3)"
         iniSet "BUTTONNUM" "2"
@@ -1031,7 +907,103 @@ function changeboard_wiringOP() {
 
 		echo "Set Board $boardname"
             ;;
-        K)
+
+        C)
+		iniSet "BOARD" "h3"
+		iniSet "BOARDNAME" "Orange Pi PC/One/Lite (H3)"
+        iniSet "BUTTONNUM" "2"
+		iniSet "WOPPINS" "27"
+		iniSet "BUTTON1" "19"
+		iniSet "BUTTON2" "22"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for OrangePi One/Lite/Pc/Plus/PcPlus/Plus2e~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 27, 28, 29, 31, 32, 33, 35, 36, 37, 38, 40}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
+
+		echo "Set Board $boardname"
+            ;;
+			
+        D)
+		iniSet "BOARD" "h5_zp"
+		iniSet "BOARDNAME" "Orange Pi Zero Plus (H5)"
+        iniSet "BUTTONNUM" "2"
+		iniSet "WOPPINS" "16"
+		iniSet "BUTTON1" "6"
+		iniSet "BUTTON2" "16"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for Orange Pi Zero Plus~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
+
+		echo "Set Board $boardname"
+            ;;
+        E)
+		iniSet "BOARD" "h5_zp2"
+		iniSet "BOARDNAME" "Orange Pi Zero Plus 2 (H5)"
+        iniSet "BUTTONNUM" "2"
+		iniSet "WOPPINS" "16"
+		iniSet "BUTTON1" "6"
+		iniSet "BUTTON2" "16"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for Orange Pi Zero Plus 2~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
+
+		echo "Set Board $boardname"
+            ;;
+			
+        F)
+		iniSet "BOARD" "h5"
+		iniSet "BOARDNAME" "Orange Pi PC2/Prime (H5)"
+        iniSet "BUTTONNUM" "2"
+		iniSet "WOPPINS" "27"
+		iniSet "BUTTON1" "19"
+		iniSet "BUTTON2" "22"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for Orange Pi Pc 2 / Prime~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 27, 28, 29, 31, 32, 33, 35, 36, 37, 38, 40}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
+
+		echo "Set Board $boardname"
+            ;;
+			
+        G)
 		iniSet "BOARD" "a64"
 		iniSet "BOARDNAME" "Orange Pi Win/Win+ (A64)"
         iniSet "BUTTONNUM" "2"
@@ -1055,8 +1027,128 @@ function changeboard_wiringOP() {
 		echo "Set Board $boardname"
             ;;
 			
+        H)
+		iniSet "BOARD" "h6p3"
+		iniSet "BOARDNAME" "Orange Pi 3/3 LTS (H6)"
+        iniSet "BUTTONNUM" "2"
+		iniSet "WOPPINS" "16"
+		iniSet "BUTTON1" "3"
+		iniSet "BUTTON2" "4"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for Orange Pi 3/3 LTS~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
+
+		echo "Set Board $boardname"
+            ;;
+        I)
+		iniSet "BOARD" "h6olite"
+		iniSet "BOARDNAME" "Orange Pi Lite2/OnePlus (H6)"
+        iniSet "BUTTONNUM" "2"
+		iniSet "WOPPINS" "16"
+		iniSet "BUTTON1" "3"
+		iniSet "BUTTON2" "4"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for Orange Pi Lite2/OnePlus~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
+
+		echo "Set Board $boardname"
+            ;;
+        J)
+		iniSet "BOARD" "h616"
+		iniSet "BOARDNAME" "Orange Pi Zero2 (H616)"
+        iniSet "BUTTONNUM" "2"
+		iniSet "WOPPINS" "20"
+		iniSet "BUTTON1" "8"
+		iniSet "BUTTON2" "9"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for Orange PI Zero 2 H616~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 27, 29, 31, 33}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
+
+		echo "Set Board $boardname"
+            ;;
+
+        K)
+		iniSet "BOARD" "rk3399"
+		iniSet "BOARDNAME" "Orange Pi RK3399 (RK3399)"
+        iniSet "BUTTONNUM" "2"
+		iniSet "WOPPINS" "27"
+		iniSet "BUTTON1" "9"
+		iniSet "BUTTON2" "10"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for Orange PI RK3399~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 27, 28, 29, 31, 32, 33, 35, 36, 37, 38, 40}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
+
+		echo "Set Board $boardname"
+            ;;
+			
+        L)
+		iniSet "BOARD" "rk3399pi4"
+		iniSet "BOARDNAME" "Orange Pi 4/B/LTS (RK3399)"
+        iniSet "BUTTONNUM" "2"
+		iniSet "WOPPINS" "18"
+		iniSet "BUTTON1" "9"
+		iniSet "BUTTON2" "10"
+		iniSet "ACTION1" "power"
+		iniSet "ACTION2" "reset"
+		iniSet "LONGSHORT1" "short"
+		iniSet "LONGSHORT2" "short"
+	
+		gpio mode $button1 in
+		gpio mode $button2 in
+		gpio write $button1 1
+		gpio write $button2 1
+		
+	sed -i "29s~.*~// following pins assignation is probably good only for Orange PI RK3399 PI4 / 4B / 4LTS~" /usr/local/bin/pushbuttons.c	
+	sed -i "30s~.*~unsigned int OpiPinsAvailable[] = {3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 27, 28}; // physical pins~" /usr/local/bin/pushbuttons.c
+	sed -i "31s~.*~unsigned int WpiPinsAvailable[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18}; // wiringPi pins~" /usr/local/bin/pushbuttons.c
+
+		echo "Set Board $boardname"
+            ;;
+			
     esac
 }
+
+# BOARD SETTINGS - END
 
 function cleaning-sc_wiringOP() {
 	sudo systemctl disable pushbuttons
@@ -1065,6 +1157,8 @@ function cleaning-sc_wiringOP() {
 	rm -r "/usr/local/bin/pushbuttons"
 }
 
+
+# GUI-MENU - START
 
 function gui_wiringOP() {
     local cmd=(dialog --backtitle "$__backtitle" --menu "Choose an option." 22 86 16)
@@ -1302,28 +1396,31 @@ function gui_wiringOP() {
                 ;;
             XX)
 				set-pushc_wiringOP
-				configbuttons_wiringOP
-				defaultini_wiringOP
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
+				default-ini_wiringOP
+				get-cfg-ini_wiringOP
 				changeboard_wiringOP
-				configbuttons_wiringOP
-				set-service_wiringOP
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
+				service-install_wiringOP
+				get-cfg-ini_wiringOP
 				rebuild-"$buttonnum"b_wiringOP
-				configbuttons_wiringOP
-				compile-scinst_wiringOP
+				get-cfg-ini_wiringOP
+				compile-pushc_wiringOP
+				get-cfg-ini_wiringOP
                 printMsgs "dialog" "Set Board to $boardname ($board) with follow defaultconfig \nWOP-PINS:$woppins\nBUTTON1: WOP-PIN-$button1 Action-$action1 Mod-$longshort1\nBUTTON2: WOP-PIN-$button2 Action-$action2 Mod-$longshort2\nAutostart-Service: $autostart\nTest with Option X the Buttons\nTest successful\n than Set Autostart with Option Y to Active"
                 ;;
             XN)
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
 				changebuttonnum_wiringOP
+				get-cfg-ini_wiringOP
                 printMsgs "dialog" "Active-Buttons successful changed to [$buttonnum Buttons]"
                 ;;
             XR)
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
 				rebuild-"$buttonnum"b_wiringOP
-				configbuttons_wiringOP
-				compile-scinst_wiringOP
+				get-cfg-ini_wiringOP
+				compile-pushc_wiringOP
+				get-cfg-ini_wiringOP
                 printMsgs "dialog" "Button reconfig successful $buttonnum Buttons active"
                 ;;
             A)
@@ -1333,7 +1430,7 @@ function gui_wiringOP() {
 				editFile "/usr/local/bin/run$button1$longshort1.sh"
                 ;;
             AF)
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
 				changeaction-b1_wiringOP
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
@@ -1345,7 +1442,7 @@ function gui_wiringOP() {
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;	
 			AM)
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
 				changemod-b1_wiringOP
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
@@ -1356,7 +1453,7 @@ function gui_wiringOP() {
 				editFile "/usr/local/bin/run$button2$longshort2.sh"
                 ;;
             BF)
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
 				changeaction-b2_wiringOP
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
@@ -1368,7 +1465,7 @@ function gui_wiringOP() {
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
 			BM)	
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
 				changemod-b2_wiringOP
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
@@ -1379,7 +1476,7 @@ function gui_wiringOP() {
 				editFile "/usr/local/bin/run$button3$longshort3.sh"
                 ;;
             CF)
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
 				changeaction-b3_wiringOP
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
@@ -1391,7 +1488,7 @@ function gui_wiringOP() {
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
 			CM)	
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
 				changemod-b3_wiringOP
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;			
@@ -1402,7 +1499,7 @@ function gui_wiringOP() {
 				editFile "/usr/local/bin/run$button4$longshort4.sh"
                 ;;
             DF)
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
 				changeaction-b4_wiringOP
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
@@ -1414,7 +1511,7 @@ function gui_wiringOP() {
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
 			DM)	
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
 				changemod-b4_wiringOP
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;	
@@ -1425,7 +1522,7 @@ function gui_wiringOP() {
 				editFile "/usr/local/bin/run$button5$longshort5.sh"
                 ;;
             EF)
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
 				changeaction-b5_wiringOP
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
@@ -1437,7 +1534,7 @@ function gui_wiringOP() {
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
 			EM)	
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
 				changemod-b5_wiringOP
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
@@ -1448,7 +1545,7 @@ function gui_wiringOP() {
 				editFile "/usr/local/bin/run$button6$longshort6.sh"
                 ;;
             FF)
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
 				changeaction-b6_wiringOP
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
@@ -1460,7 +1557,7 @@ function gui_wiringOP() {
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
 			FM)	
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
 				changemod-b6_wiringOP
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
@@ -1471,7 +1568,7 @@ function gui_wiringOP() {
 				editFile "/usr/local/bin/run$button7$longshort7.sh"
                 ;;
             GF)
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
 				changeaction-b7_wiringOP
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
@@ -1483,7 +1580,7 @@ function gui_wiringOP() {
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
 			GM)	
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
 				changemod-b7_wiringOP
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
@@ -1494,7 +1591,7 @@ function gui_wiringOP() {
 				editFile "/usr/local/bin/run$button8$longshort8.sh"
                 ;;
             HF)
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
 				changeaction-b8_wiringOP
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
@@ -1506,16 +1603,16 @@ function gui_wiringOP() {
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;
 			HM)	
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
 				changemod-b8_wiringOP
                 printMsgs "dialog" "please set all Options like [Action,PIN,MOD] \n than reconfig the Button after that with Option XR \n reconfig activate the new Settings"
                 ;;	
             X)
-				testsc_wiringOP
+				test-buttons_wiringOP
                 printMsgs "dialog" "Testtime is over, try again if you want"
                 ;;
             Y)
-				configbuttons_wiringOP
+				get-cfg-ini_wiringOP
 				changeautostart_wiringOP
                 ;;
             ZA)
@@ -1530,4 +1627,5 @@ function gui_wiringOP() {
 				
         esac
     fi
+# GUI-MENU - END
 }
