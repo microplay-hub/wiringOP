@@ -18,19 +18,29 @@ License:	CC BY-NC-SA 4.0</br>
 *Testmod for the Buttons and Scripts</br>
 *Autostart mod with changeable status</br>
 
-![pic001](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul.png "Modul Picture")
-![pic002](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-cf.png "Modul Picture")
-![pic003](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-board.png "Modul Picture")
-![pic004](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-board-set.png "Modul Picture")
-![pic005](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-button-edit.png "Modul Picture")
-![pic006](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-button-edit2.png "Modul Picture")
-![pic007](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-buttons.png "Modul Picture")
-![pic008](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-buttons-xx.png "Modul Picture")
-![pic009](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-action.png "Modul Picture")
-![pic010](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-pin.png "Modul Picture")
-![pic011](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-mod.png "Modul Picture")
-![pic012](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-autostart.png "Modul Picture")</br>
-![pic099](https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/cfg-wiringop.png "Modul Picture")
+
+## RetroPie Modul - WiringOP
+<img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul.png" width="400" height="240"><img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-cf.png" width="400" height="240"></br>
+
+## RetroPie Configure Modul - WiringOP
+<img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/cfg-wiringop.png" width="400" height="240"></br>
+
+## RetroPie Configure Modul - WiringOP - Set Board
+<img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-board.png" width="400" height="240"><img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-board-set.png" width="400" height="240"></br>
+
+## RetroPie Configure Modul - WiringOP - Set Buttons
+<img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-buttons.png" width="400" height="240"><img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-buttons-xx.png" width="400" height="240"></br>
+
+## RetroPie Configure Modul - WiringOP - Button Edit
+<img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-button-edit.png" width="400" height="240"><img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-button-edit2.png" width="400" height="240"></br>
+
+## RetroPie Configure Modul - WiringOP - Action / PIN / MOD Edit
+<img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-action.png" width="400" height="240"><img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-pin.png" width="400" height="240"></br>
+<img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-mod.png" width="400" height="240"></br>
+
+## RetroPie Configure Modul - WiringOP - Autostart Service
+<img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-autostart.png" width="400" height="240"></br>
+
 
 
 
