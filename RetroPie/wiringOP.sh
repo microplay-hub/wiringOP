@@ -11,7 +11,7 @@
 # See the LICENSE.md file at the top-level directory of this distribution and
 # at https://raw.githubusercontent.com/RetroPie/RetroPie-Setup/master/LICENSE.md
 #
-# v2.34 - 2023-03-06
+# v2.35 - 2023-03-06
 # up to 8 Buttons
 # CC BY-NC-SA 4.0
 
@@ -113,6 +113,14 @@ _EOF_
 	#reset script
     cat > "pushbuttons/reset.sh" << _EOF_
 sudo reboot
+_EOF_
+	#esreboot script
+    cat > "pushbuttons/esreboot.sh" << _EOF_
+touch /tmp/es-restart && pkill -f "/opt/retropie/supplementary/.*/emulationstation([^.]|$)"
+_EOF_
+	#kretroarch script
+    cat > "pushbuttons/kretroarch.sh" << _EOF_
+killall retroarch
 _EOF_
 	#custom script
     cat > "pushbuttons/custom.sh" << _EOF_
@@ -592,8 +600,10 @@ function changebuttonnum_wiringOP() {
 
 function changeaction-b1_wiringOP() {
     options=(
-        S1 "Button1 Action Power(Safeshutdown)"
-        L1 "Button1 Action Reset (Safereset)"
+        A1 "Button1 Action Power(Safeshutdown)"
+        B1 "Button1 Action Reset (Safereset)"
+        C1 "Button1 Action EmulationStation Reboot (esreboot)"
+        D1 "Button1 Action Stop Retroarch (kretroarch)"		
 		Z1 "Button1 Action Custom (own script)"
 		XX "(current setting: $action1)"
     )
@@ -601,11 +611,17 @@ function changeaction-b1_wiringOP() {
     local choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 
     case "$choice" in
-        S1)
+        A1)
             iniSet "ACTION1" "power"
             ;;
-        L1)
+        B1)
             iniSet "ACTION1" "reset"
+            ;;
+        C1)
+            iniSet "ACTION1" "esreboot"
+            ;;
+        D1)
+            iniSet "ACTION1" "kretroarch"
             ;;
         Z1)
             iniSet "ACTION1" "custom"
@@ -615,8 +631,10 @@ function changeaction-b1_wiringOP() {
 
 function changeaction-b2_wiringOP() {
     options=(	
-        S2 "Button2 Action Power (Safeshutdown)"
-        L2 "Button2 Action Reset (Safereset)"
+        A2 "Button2 Action Power(Safeshutdown)"
+        B2 "Button2 Action Reset (Safereset)"
+        C2 "Button2 Action EmulationStation Reboot (esreboot)"
+        D2 "Button2 Action Stop Retroarch (kretroarch)"	
 		Z2 "Button2 Action Custom (own script)"
 		XX "[current setting: $action2]"
     )
@@ -624,11 +642,17 @@ function changeaction-b2_wiringOP() {
     local choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 
     case "$choice" in
-        S2)
+        A2)
             iniSet "ACTION2" "power"
             ;;
-        L2)
+        B2)
             iniSet "ACTION2" "reset"
+            ;;
+        C2)
+            iniSet "ACTION2" "esreboot"
+            ;;
+        D2)
+            iniSet "ACTION2" "kretroarch"
             ;;
         Z2)
             iniSet "ACTION2" "custom"
@@ -638,8 +662,10 @@ function changeaction-b2_wiringOP() {
 
 function changeaction-b3_wiringOP() {
     options=(	
-        S3 "Button3 Action Power (Safeshutdown)"
-        L3 "Button3 Action Reset (Safereset)"
+        A3 "Button3 Action Power(Safeshutdown)"
+        B3 "Button3 Action Reset (Safereset)"
+        C3 "Button3 Action EmulationStation Reboot (esreboot)"
+        D3 "Button3 Action Stop Retroarch (kretroarch)"	
 		Z3 "Button3 Action Custom (own script)"
 		XX "[current setting: $action3]"
     )
@@ -647,11 +673,17 @@ function changeaction-b3_wiringOP() {
     local choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 
     case "$choice" in
-        S3)
+        A3)
             iniSet "ACTION3" "power"
             ;;
-        L3)
+        B3)
             iniSet "ACTION3" "reset"
+            ;;
+        C3)
+            iniSet "ACTION3" "esreboot"
+            ;;
+        D3)
+            iniSet "ACTION3" "kretroarch"
             ;;
         Z3)
             iniSet "ACTION3" "custom"
@@ -661,8 +693,10 @@ function changeaction-b3_wiringOP() {
 
 function changeaction-b4_wiringOP() {
     options=(	
-        S4 "Button4 Action Power (Safeshutdown)"
-        L4 "Button4 Action Reset (Safereset)"
+        A4 "Button4 Action Power (Safeshutdown)"
+        B4 "Button4 Action Reset (Safereset)"
+        C4 "Button4 Action EmulationStation Reboot (esreboot)"
+        D4 "Button4 Action Stop Retroarch (kretroarch)"	
 		Z4 "Button4 Action Custom (own script)"
 		XX "[current setting: $action4]"
     )
@@ -670,11 +704,17 @@ function changeaction-b4_wiringOP() {
     local choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 
     case "$choice" in
-        S4)
+        A4)
             iniSet "ACTION4" "power"
             ;;
-        L4)
+        B4)
             iniSet "ACTION4" "reset"
+            ;;
+        C4)
+            iniSet "ACTION4" "esreboot"
+            ;;
+        D4)
+            iniSet "ACTION4" "kretroarch"
             ;;
         Z4)
             iniSet "ACTION4" "custom"
@@ -685,8 +725,10 @@ function changeaction-b4_wiringOP() {
 
 function changeaction-b5_wiringOP() {
     options=(	
-        S5 "Button5 Action Power (Safeshutdown)"
-        L5 "Button5 Action Reset (Safereset)"
+        A5 "Button5 Action Power (Safeshutdown)"
+        B5 "Button5 Action Reset (Safereset)"
+        C5 "Button5 Action EmulationStation Reboot (esreboot)"
+        D5 "Button5 Action Stop Retroarch (kretroarch)"	
 		Z5 "Button5 Action Custom (own script)"
 		XX "[current setting: $action5]"
     )
@@ -694,11 +736,17 @@ function changeaction-b5_wiringOP() {
     local choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 
     case "$choice" in
-        S5)
+        A5)
             iniSet "ACTION5" "power"
             ;;
-        L5)
+        B5)
             iniSet "ACTION5" "reset"
+            ;;
+        C5)
+            iniSet "ACTION5" "esreboot"
+            ;;
+        D5)
+            iniSet "ACTION5" "kretroarch"
             ;;
         Z5)
             iniSet "ACTION5" "custom"
@@ -708,8 +756,10 @@ function changeaction-b5_wiringOP() {
 
 function changeaction-b6_wiringOP() {
     options=(	
-        S6 "Button6 Action Power (Safeshutdown)"
-        L6 "Button6 Action Reset (Safereset)"
+        A6 "Button6 Action Power (Safeshutdown)"
+        B6 "Button6 Action Reset (Safereset)"
+        C6 "Button6 Action EmulationStation Reboot (esreboot)"
+        D6 "Button6 Action Stop Retroarch (kretroarch)"	
 		Z6 "Button6 Action Custom (own script)"
 		XX "[current setting: $action6]"
     )
@@ -717,11 +767,17 @@ function changeaction-b6_wiringOP() {
     local choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 
     case "$choice" in
-        S6)
+        A6)
             iniSet "ACTION6" "power"
             ;;
-        L6)
+        B6)
             iniSet "ACTION6" "reset"
+            ;;
+		C6)
+            iniSet "ACTION6" "esreboot"
+            ;;
+        D6)
+            iniSet "ACTION6" "kretroarch"
             ;;
         Z6)
             iniSet "ACTION6" "custom"
@@ -731,8 +787,10 @@ function changeaction-b6_wiringOP() {
 
 function changeaction-b7_wiringOP() {
     options=(	
-        S7 "Button7 Action Power (Safeshutdown)"
-        L7 "Button7 Action Reset (Safereset)"
+        A7 "Button7 Action Power (Safeshutdown)"
+        B7 "Button7 Action Reset (Safereset)"
+        C7 "Button7 Action EmulationStation Reboot (esreboot)"
+        D7 "Button7 Action Stop Retroarch (kretroarch)"	
 		Z7 "Button7 Action Custom (own script)"
 		XX "[current setting: $action7]"
     )
@@ -740,11 +798,17 @@ function changeaction-b7_wiringOP() {
     local choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 
     case "$choice" in
-        S7)
+        A7)
             iniSet "ACTION7" "power"
             ;;
-        L7)
+        B7)
             iniSet "ACTION7" "reset"
+            ;;
+		C7)
+            iniSet "ACTION7" "esreboot"
+            ;;
+        D7)
+            iniSet "ACTION7" "kretroarch"
             ;;
         Z7)
             iniSet "ACTION7" "custom"
@@ -754,8 +818,10 @@ function changeaction-b7_wiringOP() {
 
 function changeaction-b8_wiringOP() {
     options=(	
-        S8 "Button8 Action Power (Safeshutdown)"
-        L8 "Button8 Action Reset (Safereset)"
+        A8 "Button8 Action Power (Safeshutdown)"
+        B8 "Button8 Action Reset (Safereset)"
+        C8 "Button8 Action EmulationStation Reboot (esreboot)"
+        D8 "Button8 Action Stop Retroarch (kretroarch)"
 		Z8 "Button8 Action Custom (own script)"
 		XX "[current setting: $action8]"
     )
@@ -763,11 +829,17 @@ function changeaction-b8_wiringOP() {
     local choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 
     case "$choice" in
-        S8)
+        A8)
             iniSet "ACTION8" "power"
             ;;
-        L8)
+        B8)
             iniSet "ACTION8" "reset"
+            ;;
+		C8)
+            iniSet "ACTION8" "esreboot"
+            ;;
+        D8)
+            iniSet "ACTION8" "kretroarch"
             ;;
         Z8)
             iniSet "ACTION8" "custom"
