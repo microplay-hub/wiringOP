@@ -20,10 +20,10 @@ License:	CC BY-NC-SA 4.0</br>
 
 
 ## RetroPie Modul - WiringOP
-<img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul.png" width="400" height="240"><img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-cf.png" width="400" height="240"></br>
+<img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul.png" width="400" height="240">
 
 ## RetroPie Configure Modul - WiringOP
-<img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/cfg-wiringop.png" width="400" height="240"></br>
+<img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/cfg-wiringop.png" width="400" height="240"><img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-cf.png" width="400" height="240"></br>
 
 ## RetroPie Configure Modul - WiringOP - Set Board
 <img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-board.png" width="400" height="240"><img src="https://github.com/microplay-hub/mpcore-library/raw/main/Imagebase/_Moduls/wiringop-modul-board-set.png" width="400" height="240"></br>
