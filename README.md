@@ -7,6 +7,8 @@ Moded-Code:	Liontek1985</br>
 Scrips:		Liontek1985</br>
 License:	CC BY-NC-SA 4.0</br>
 
+Link to GPIO and WiringOP [Handbook Link](https://github.com/microplay-hub/mpcore-library/blob/main/Guides/GPIO-WiringOP-GUIDE_EN.pdf)
+
 # Set your Board "Orange PI Series"</br>
 *The Script set automatic the GPIO-PINs in the right mode</br>
 *Changeable Buttons from 1-8</br>
